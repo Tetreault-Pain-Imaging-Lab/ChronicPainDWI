@@ -27,7 +27,7 @@ fi
 directory="$1"
 
 # Load the required module
-module load StdEnv/2020 java/14.0.2 nextflow/22.10.8 apptainer/1.1.8
+module load StdEnv/2020 java/14.0.2 nextflow/21.12.1 apptainer/1.1.8
 
 # Clone the TractoFlow repository
 cd "$directory" || exit 1
@@ -35,5 +35,6 @@ git clone https://github.com/scilus/tractoflow.git || exit 1
 
 # Build the .sif file in a directory called containers
 mkdir containers
+cd containers
 wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
 

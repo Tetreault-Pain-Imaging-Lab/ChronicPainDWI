@@ -11,7 +11,7 @@
 #SBATCH --nodes=2
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=0
-#SBATCH --time=168:00:00
+#SBATCH --time=16:00:00
 
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
 #SBATCH --mail-type=BEGIN
@@ -19,18 +19,22 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL
+#SBATCH --output="outputs/slurm-%A_%a.out"
 
 
+module load StdEnv/2020 java/14.0.2 nextflow/21.12.1 apptainer/1.1.8
 
-module load StdEnv/2020 java/14.0.2 nextflow/22.10.8 apptainer/1.1.8
+# my_singularity_img='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/containers/scilus_1.6.0.sif' # or .img
+# my_main_nf='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/tractoflow/main.nf'
+# my_input='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_tpil/data/BIDS_dataset_longitudinale/dataset_v2/'
+# my_bidsignore='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_tpil/data/BIDS_dataset_longitudinale/.bidsignore_tractoflow'
 
-my_singularity_img='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/containers/scilus_1.6.0.sif' # or .img
-my_main_nf='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/tractoflow/main.nf'
-my_input='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_tpil/data/BIDS_dataset_longitudinale/dataset_v2/'
-my_bidsignore='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_tpil/data/BIDS_dataset_longitudinale/.bidsignore_tractoflow'
+my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
+my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
+my_input='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/data_raw_for_test/dataset_v2/'
+my_bidsignore='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/.bidsignore_tractoflow'
 
 nextflow run $my_main_nf --bids $my_input \
     -with-singularity $my_singularity_img -resume -with-report report.html \
     --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
     --bidsignore $my_bidsignore
-s
