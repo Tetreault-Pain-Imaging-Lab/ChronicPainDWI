@@ -14,3 +14,10 @@ BOLD images: (~ 10 min) were obtained using a 2D segmented k-space (SK) Fat Satu
 
 Diffusion-weighted images: (~ 9 min) were obtained using a 2D segmented k-space (SK) Fat Saturation (FS) Spin Echo (SE) sequence with repetition time (RT) = 4.800 s, echo time (TE) = 92 ms, flip angle = 90°, voxel size 2.00mm x 2.00mm x 2.00mm. For each subject 108 diffusion volumes (7 b = 0 mm2/s, 8 b = 300 mm2/s, 32 b = 1,000 mm2/s, 60 b = 2,000 mm2/s) were obtained including a b0 with reverse phase encoding (AP) for correction of susceptibility induced distortions. SENSE = 1.9
 
+## Preprocessing and QC
+
+In the [preprocessing](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/preprocessing) folder you will find scripts and information to run the first steps of the analysis. 
+
+inputs: Raw data in BIDS format (whole dataset)
+outputs: DTI and fODF metrics, ... (tractoflow's result folder)
+
