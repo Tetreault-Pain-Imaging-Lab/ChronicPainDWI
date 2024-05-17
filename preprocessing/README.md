@@ -15,7 +15,7 @@ TractoFlow was run directly on the BIDS formatted dataset on Compute Canada usin
 
 <details><summary><b>Example command</b></summary>
   
-  `nextflow run main.nf --input <DATASET_ROOT_FOLDER> --dti_shells "0 300 1000" --fodf_shells "0 1000 1200" -with-singularity`
+  `nextflow run main.nf --input <DATASET_ROOT_FOLDER> --dti_shells "0 300 1000" --fodf_shells "0 1000 1200" -with-singularity <PATH_TO_scilus_img>`
 </details>
   
 <details><summary><b>Outputs</b></summary>
@@ -24,10 +24,11 @@ TractoFlow was run directly on the BIDS formatted dataset on Compute Canada usin
   
 **fODF metrics**: The fiber Orientation Distribution Function metrics computed are: the total and maximum Apparent Fiber Density (AFD), the Number of Fiber Orientation (NuFO) and principal fODFs orientations (up to 5 per voxel). Use flag `–fodf_shells` to specify the desired shells to compute fODF metrics and flag --sh_order to specify the spherical harmonic order (default is 8). Usually it is recommended to compute fODF metrics using b-values above $b = 700 mm^2/s$. 
 
-... 
-
 </details>
 
-## 
+
+## QualityControl
+
+
 
 
