@@ -1,0 +1,79 @@
+May-16 11:55:21.017 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf --bids /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/data_raw_for_test/dataset_v2/ -with-singularity /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif -resume -with-report report.html --dti_shells '0 1000' --fodf_shells '0 1000 2000' -profile bundling --run_gibbs_correction true --bidsignore /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/.bidsignore_tractoflow
+May-16 11:55:21.092 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.10.8
+May-16 11:55:21.125 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/ludoal/.nextflow/plugins; core-plugins: nf-amazon@1.11.5,nf-azure@0.14.3,nf-codecommit@0.1.2,nf-console@1.0.4,nf-ga4gh@1.0.5,nf-google@1.4.6,nf-tower@1.5.7-patch0,nf-wave@0.5.5
+May-16 11:55:21.141 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-16 11:55:21.143 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-16 11:55:21.147 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-16 11:55:21.161 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-16 11:55:21.200 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/nextflow.config
+May-16 11:55:21.203 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/nextflow.config
+May-16 11:55:21.241 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `bundling`
+May-16 11:55:22.558 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [fully_reproducible, ABS, connectomics, use_gpu, cbrain, bundling, skip_preprocessing, macos]
+May-16 11:55:22.565 [main] WARN  nextflow.config.ConfigBuilder - It appears you have never run this project before -- Option `-resume` is ignored
+May-16 11:55:22.594 [main] DEBUG nextflow.config.ConfigBuilder - Enabling execution in Singularity container as requested by command-line option `-with-singularity null`
+May-16 11:55:22.641 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=1 by probing script field
+May-16 11:55:22.658 [main] INFO  nextflow.cli.CmdRun - Launching `/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf` [silly_cajal] DSL1 - revision: f9fefb51a3
+May-16 11:55:22.659 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-16 11:55:22.659 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-16 11:55:22.681 [main] DEBUG nextflow.secret.LocalSecretsProvider - Secrets store: /home/ludoal/.nextflow/secrets/store.json
+May-16 11:55:22.687 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@53d2d002] - activable => nextflow.secret.LocalSecretsProvider@53d2d002
+May-16 11:55:22.783 [main] DEBUG nextflow.Session - Session UUID: f5a03d11-4a5f-4a8d-98fb-f326c4a3bdc8
+May-16 11:55:22.783 [main] DEBUG nextflow.Session - Run name: silly_cajal
+May-16 11:55:22.783 [main] DEBUG nextflow.Session - Executor pool size: 32
+May-16 11:55:22.802 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=96; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-16 11:55:22.822 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.10.8 build 5860
+  Created: 15-04-2023 10:08 UTC (03:08 PDT)
+  System: Linux 3.10.0-1160.108.1.el7.x86_64
+  Runtime: Groovy 3.0.13 on OpenJDK 64-Bit Server VM 13.0.2+8
+  Encoding: UTF-8 (UTF-8)
+  Process: 45737@cdr1265.int.cedar.computecanada.ca [172.16.140.240]
+  CPUs: 32 - Mem: 187.5 GB (142.3 GB) - Swap: 0 (0)
+May-16 11:55:22.879 [main] DEBUG nextflow.Session - Work-dir: /scratch/ludoal/ChronicPainDWI/work [lustre]
+May-16 11:55:22.879 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/bin
+May-16 11:55:22.922 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[GoogleLifeSciencesExecutor, AwsBatchExecutor, GoogleBatchExecutor]
+May-16 11:55:22.939 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-16 11:55:22.951 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+May-16 11:55:23.044 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-16 11:55:23.060 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 33; maxThreads: 1000
+May-16 11:55:28.772 [main] DEBUG nextflow.Session - Session start
+May-16 11:55:31.085 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-16 11:55:31.105 [main] INFO  nextflow.Nextflow - TractoFlow pipeline
+May-16 11:55:31.105 [main] INFO  nextflow.Nextflow - ===================
+May-16 11:55:31.105 [main] INFO  nextflow.Nextflow - 
+May-16 11:55:31.106 [main] INFO  nextflow.Nextflow - Start time: 2024-05-16T11:55:22.957180-07:00
+May-16 11:55:31.106 [main] INFO  nextflow.Nextflow - 
+May-16 11:55:31.116 [main] DEBUG nextflow.Session - Session aborted -- Cause: This workflow requires Nextflow (>=19.04.2, <=21.12.1) -- You are running version 22.10.8
+May-16 11:55:31.135 [main] ERROR nextflow.cli.Launcher - @unknown
+nextflow.exception.ProcessUnrecoverableException: This workflow requires Nextflow (>=19.04.2, <=21.12.1) -- You are running version 22.10.8
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:72)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:105)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:59)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
+	at nextflow.Nextflow.error(Nextflow.groovy:262)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite$StaticMetaMethodSiteNoUnwrap.invoke(StaticMetaMethodSite.java:131)
+	at org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite.callStatic(StaticMetaMethodSite.java:100)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:231)
+	at Script_eba63ffb.runScript(Script_eba63ffb:126)
+	at nextflow.script.BaseScript.runDsl1(BaseScript.groovy:164)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:217)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:230)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:225)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:131)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:354)
+	at nextflow.cli.Launcher.run(Launcher.groovy:487)
+	at nextflow.cli.Launcher.main(Launcher.groovy:646)
