@@ -25,16 +25,44 @@ fi
 
 # Initialize a variable 'directory' with the value of the argument
 directory="$1"
+if [ -d "$directory" ]; then
+    # Directory exists
+    echo "Directory exists."
+else
+    # Directory does not exist
+    echo "Directory does not exists, creating it ..."
+    mkdir "$directory"
+fi
 
 # Load the required module
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
-# Clone the TractoFlow repository
-cd "$directory" || exit 1
-git clone https://github.com/scilus/tractoflow.git || exit 1
+# Clone the necessary repository for preprocessing
+tractoflow_path="${directory}/tractoflow"
+dmriqc_path="${directory}/dmriqc_flow"
+
+if [ -d "$tractoflow_path" ]; then
+    echo "tractoflow is already installed."
+else
+    git clone https://github.com/scilus/tractoflow.git "${directory}/tractoflow" || exit 1
+fi
+
+if [ -d "$dmriqc_path" ]; then
+    echo "dmriqc_flow is already installed."
+else
+    git clone https://github.com/scilus/dmriqc_flow.git "${directory}/dmriqc_flow" || exit 1
+fi
+
+
 
 # Build the .sif file in a directory called containers
+if [ -d "${directory}/containers" ]; then
+    # Directory exists
+    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
+else
+    # Directory does not exist
+    mkdir "$directory"
+fi
 mkdir containers
-cd containers
 wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
 
