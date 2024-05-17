@@ -1,6 +1,8 @@
 outputs/slurm-*
-*.log
-.nextflow
+*.log.*
+.nextflow/*
+.nextflow.log*
 work
 results
 *.html
+.nextflow.log.1
