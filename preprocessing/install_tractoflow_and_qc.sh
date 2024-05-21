@@ -3,9 +3,9 @@
 # Help message function
 display_help() {
     echo "Usage: $0 [directory]"
-    echo "Installs TractoFlow in the specified directory."
+    echo "Installs TractoFlow and dmriqc_flow in the specified directory."
     echo "Arguments:"
-    echo "  directory   The directory where TractoFlow will be installed."
+    echo "  directory   The directory where the tools will be installed."
 }
 
 # Check for the --help option
@@ -16,7 +16,7 @@ fi
 
 # Check for the number of command-line arguments
 if [[ $# -eq 0 ]]; then
-    echo "Error: Not enough arguments. Provide the directory where you want to install TractoFlow."
+    echo "Error: Not enough arguments. Provide the directory where you want to install the tools."
     exit 1
 elif [[ $# -gt 1 ]]; then
     echo "Error: Too many arguments."
@@ -54,15 +54,12 @@ else
 fi
 
 
-
 # Build the .sif file in a directory called containers
-if [ -d "${directory}/containers" ]; then
-    # Directory exists
-    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
-else
-    # Directory does not exist
-    mkdir "$directory"
+if [ ! -d "${directory}/containers" ]; then
+    mkdir "${directory}/containers"  || { echo "Failed to create containers directory. Exiting..."; exit 1; }
 fi
-mkdir containers
-wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
 
+if [ ! -f "${directory}/containers/scilus_1.6.0.sif " ]; then
+    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
+    mv scilus_1.6.0.sif "${directory}/containers"
+fi

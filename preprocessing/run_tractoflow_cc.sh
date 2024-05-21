@@ -36,7 +36,7 @@ my_bidsignore='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/.bidsig
 my_output_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/tractoflow_results'
 
 nextflow run $my_main_nf --bids $my_input \
-    -with-singularity $my_singularity_img -resume -with-report report.html \
+    -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
     --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
     --bidsignore $my_bidsignore \
     --output_dir $my_output_dir
