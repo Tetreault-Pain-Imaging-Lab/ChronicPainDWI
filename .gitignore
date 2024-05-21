@@ -6,3 +6,4 @@ work
 results
 *.html
 .nextflow.log.1
+report.html.1

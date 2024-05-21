@@ -56,13 +56,11 @@ fi
 
 
 # Build the .sif file in a directory called containers
-if [ -d "${directory}/containers" ]; then
-    # Directory exists
-    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
-else
-    # Directory does not exist
-    mkdir "$directory"
+if [ ! -d "${directory}/containers" ]; then
+    mkdir "${directory}/containers" || || { echo "Failed to create containers directory. Exiting..."; exit 1; }
 fi
-mkdir containers
-wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
 
+if [ ! -f "${directory}/containers/scilus_1.6.0.sif " ]; then
+    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
+    mv scilus_1.6.0.sif "${directory}/containers"
+fi
