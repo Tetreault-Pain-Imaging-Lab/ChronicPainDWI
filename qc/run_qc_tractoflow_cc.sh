@@ -34,4 +34,5 @@ NXF_VER=nextflow/21.10.3 nextflow run $my_main_nf \
     -profile tractoflow_qc_all \
     --input $my_input \
     --output_dir $my_output_dir \
+    -w "${my_output_dir}/work" \
     -resume

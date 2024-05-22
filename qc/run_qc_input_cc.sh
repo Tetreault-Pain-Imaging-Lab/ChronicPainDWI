@@ -35,4 +35,5 @@ NXF_VER=nextflow/21.10.3 nextflow run $my_main_nf \
     -with-singularity $my_singularity_img \
     --input $my_input \
     --output_dir $my_output_dir \
+    -w "${my_output_dir}/work" \
     -resume

@@ -28,7 +28,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/slurm-%A_%a.out"
+#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/slurm-%A.out"
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8

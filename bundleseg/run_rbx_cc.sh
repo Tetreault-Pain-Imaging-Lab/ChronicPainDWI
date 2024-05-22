@@ -14,15 +14,17 @@
                                # all the node, you can keep 0.
 #SBATCH --time=48:00:00
 
-#SBATCH --mail-user=paul.bautin@polymtl.ca
+
+#SBATCH --mail-user=ludo.a.levesque@gmail.com
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL
+#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/rbx/slurm-%A.out"
 
 
-module load StdEnv/2020 java/14.0.2 nextflow/22.10.8 apptainer/1.1.8
+module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 my_singularity_img='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/rbx_flow/main.nf'
