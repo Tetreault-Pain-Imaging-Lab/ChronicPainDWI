@@ -8,3 +8,4 @@ results
 .nextflow.log.1
 report.html.1
 outputs/*
+replay_*

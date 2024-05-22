@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# STILL IN TESTING 
+
 # This would run Tractoflow with the following parameters:
 #   - bids: clinical data from TPIL lab (27 CLBP and 25 control subjects), if not in BIDS format use flag --input
 #   - with-singularity: container image scilus v1.4.0 (runs: dmriqc_flow, tractoflow, recobundleX, tractometry)
@@ -42,5 +44,6 @@ nextflow run $my_main_nf --bids $my_input \
     -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
     --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
     --bidsignore $my_bidsignore \
+    --profile use_gpu \
     --output_dir $my_output_dir \
-    --local_batch_size_gpu 0
+    --local_batch_size_gpu 10000
