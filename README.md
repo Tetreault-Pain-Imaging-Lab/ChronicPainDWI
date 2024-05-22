@@ -15,6 +15,16 @@ BOLD images: (~ 10 min) were obtained using a 2D segmented k-space (SK) Fat Satu
 
 Diffusion-weighted images: (~ 9 min) were obtained using a 2D segmented k-space (SK) Fat Saturation (FS) Spin Echo (SE) sequence with repetition time (RT) = 4.800 s, echo time (TE) = 92 ms, flip angle = 90°, voxel size 2.00mm x 2.00mm x 2.00mm. For each subject 108 diffusion volumes (7 b = 0 mm2/s, 8 b = 300 mm2/s, 32 b = 1,000 mm2/s, 60 b = 2,000 mm2/s) were obtained including a b0 with reverse phase encoding (AP) for correction of susceptibility induced distortions. SENSE = 1.9
 
+## How to use this repository
+This repository was made for two reasons:
+  1- To document the analysis of the DMRI data of the mentionned dataset done in our lab. (link to article ??? )
+  2- To facilitate reproduction of our results or similar analysis on new data.
+It is made to be run on a Compute Canada Server, so if anyone intends to use these scripts locally or on another HPC, more significant adaptation of the scripts will be needed.
+
+### for use on Compute Canada
+If you intend to use this repository ona Compute Canada here is some useful information :
+The utils folder contains scripts to facilitate the organization of the workspace and the installation of the different tools needed for the analysis on a Compute Canada cluster. 
+We recommend that you put a version of your data on your scratch directory, run the scripts on the scratch and only tranfer the results somewhere else afterwards. On the other hand, tools like tractoflow and the scilus containers should be in a directory that won't be periodically purged like the *projects* directory.
 
 ## Preprocessing and tractogram generation
 
