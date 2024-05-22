@@ -39,12 +39,14 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 # Build the .sif file in a directory called containers
 if [ ! -d "${directory}/containers" ]; then
-    mkdir "${directory}/containers" || || { echo "Failed to create containers directory. Exiting..."; exit 1; }
+    mkdir "${directory}/containers" || { echo "Failed to create containers directory. Exiting..."; exit 1; }
 fi
 
-if [ ! -f "${directory}/containers/scilus_1.6.0.sif " ]; then
+if [ ! -f "${directory}/containers/scilus_1.6.0.sif" ]; then
     wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
     mv scilus_1.6.0.sif "${directory}/containers"
+else
+    echo "scilus_1.6.0.sif is already installed" 
 fi
 
 # Clone the necessary repository in the specified directory
@@ -54,25 +56,25 @@ rbx_path="${directory}/rbx_flow"
 combineflow_path="${directory}/combine_flows"
 
 if [ -d "$tractoflow_path" ]; then
-    echo "tractoflow is already installed."
+    echo "tractoflow is already installed. Skipping installation"
 else
     git clone https://github.com/scilus/tractoflow.git "$tractoflow_path" || exit 1
 fi
 
 if [ -d "$dmriqc_path" ]; then
-    echo "dmriqc_flow is already installed."
+    echo "dmriqc_flow is already installed.Skipping installation"
 else
     git clone https://github.com/scilus/dmriqc_flow.git "$dmriqc_path" || exit 1
 fi
 
 if [ -d "$rbx_path" ]; then
-    echo "rbx_flow is already installed."
+    echo "rbx_flow is already installed. Skipping installation"
 else
     git clone https://github.com/scilus/rbx_flow.git "$rbx_path" || exit 1
 fi
 
 if [ -d "$combineflow_path" ]; then
-    echo "combine_flow is already installed."
+    echo "combine_flow is already installed. Skipping installation"
 else
     git clone https://github.com/scilus/combine_flows.git "$combineflow_path" || exit 1
 fi
