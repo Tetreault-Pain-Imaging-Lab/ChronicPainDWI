@@ -5,7 +5,7 @@ After running tractoflow, the next step is bundle segmentation which is done usi
 ...
 
 ## RecobundlesX
-The script used to lauch this pipeline is `run_rbx_cc.sh`
+The script used to lauch this pipeline is `run_rbx_cc.sh`. It uses the atlas recommended by the scilus lab ([version 3.1 on zenodo](https://zenodo.org/records/10103446) ). The script `install_tools_cc.sh` presented in [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) automatically downloads the atlas files in a format that is ready to be used as the `--atlas_directory` option in the command line of rbx_flow. 
 
 <details><summary><b>Resources</b></summary>
 
@@ -18,5 +18,10 @@ page 137-170, (2020), https://savoirs.usherbrooke.ca/handle/11143/17255`
 
 <details><summary><b>Example command</b></summary>
   
-`nextflow run main.nf -resume -with-singularity scilus-1.2.0_rbxflow-1.1.0.img --input input/ --atlas_config code/rbx-atlas/config.json --atlas_anat code/rbx-atlas/mni_masked.nii.gz --atlas_directory code/rbx-atlas/atlas/`
+`nextflow run $my_main_nf \
+    --input $my_input \
+    -with-singularity $my_singularity_img \
+    -with-report report.html \
+    --atlas_directory $my_atlas_dir \
+    -resume `
 </details>
