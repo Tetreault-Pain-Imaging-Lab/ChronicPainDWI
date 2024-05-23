@@ -36,6 +36,9 @@ my_atlas_dir='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v31'
 #my_atlas_centroids='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v22/atlas/centroids'
 
 
-NXF_DEFAULT_DSL=1 nextflow run $my_main_nf --input $my_input \
-    -with-singularity $my_singularity_img -resume -with-report report.html \
-    --atlas_directory $my_atlas_dir
+NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
+    --input $my_input \
+    -with-singularity $my_singularity_img \
+    -with-report report.html \
+    --atlas_directory $my_atlas_dir \
+    -resume 

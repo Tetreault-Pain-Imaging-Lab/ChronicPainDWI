@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/
+
 # Help message function
 display_help() {
     echo "Usage: $0 [directory]"
@@ -77,4 +79,19 @@ if [ -d "$combineflow_path" ]; then
     echo "combine_flow is already installed. Skipping installation"
 else
     git clone https://github.com/scilus/combine_flows.git "$combineflow_path" || exit 1
+fi
+
+# Create the atlas folder fo bundleseg (using the version 3.1 on https://zenodo.org/records/10103446, there might be newer version)
+atlas_folder="${directory}/atlas_dir"
+echo "Atlas folder : ${atlas_folder} "
+
+if [! -d $atlas_folder ];then
+    echo "The atlas folder doesnt exist. Creating it and downoading atlas files"
+    wget https://zenodo.org/records/10103446/files/atlas.zip || exit 1
+    wget https://zenodo.org/records/10103446/files/config.zip || exit 1
+    unzip atlas.zip -d $atlas_folder
+    unzip config.zip -d $atlas_folder
+else
+    echo "Atlas folder already exist"
+    tree $atlas_folder
 fi

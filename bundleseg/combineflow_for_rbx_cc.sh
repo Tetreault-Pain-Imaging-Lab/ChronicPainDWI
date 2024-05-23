@@ -19,6 +19,7 @@ fi
 # Assign arguments to variables
 tractoflow_results_folder="$1"
 output_folder="$2"
+atlas_folder="$3"
 
 # tractoflow_results_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results"
 # output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx"
@@ -35,5 +36,8 @@ echo "Executing command: $cmd"
 # Execute the command
 eval "$cmd"
 
+
 # ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/*Tracking/*.trk /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1
 # ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/DTI_Metrics/*fa.nii.gz /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1/fa.nii.gz
+
+
