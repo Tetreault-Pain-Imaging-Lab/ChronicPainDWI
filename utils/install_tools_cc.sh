@@ -97,4 +97,3 @@ else
     echo "Atlas folder already exist"
     tree $atlas_folder
 fi
-

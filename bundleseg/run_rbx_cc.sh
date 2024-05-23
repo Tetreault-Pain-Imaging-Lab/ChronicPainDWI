@@ -3,7 +3,7 @@
 # This would run RecobundleX with the following parameters:
 #   - Population average atlas for RecobundlesX. DOI: 10.5281/zenodo.5165374
 
-
+#SBATCH --job-name=rbx
 #SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
                                # See the comment for the cpus-per-task. One general rule could be
                                # that if you have more subjects than cores/cpus (ex, if you process 38
@@ -30,10 +30,6 @@ my_singularity_img='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/contain
 my_main_nf='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/rbx_flow/main.nf'
 my_input='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_tpil/data/24-04-30_rbx'
 my_atlas_dir='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v31'
-#my_atlas_config='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v22/config/config_ind.json'
-#my_atlas_anat='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v22/atlas/mni_masked.nii.gz'
-#my_atlas_dir='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v22/atlas/atlas'
-#my_atlas_centroids='/home/pabaua/projects/def-pascalt-ab/pabaua/dev_scil/atlas_v22/atlas/centroids'
 
 
 NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \

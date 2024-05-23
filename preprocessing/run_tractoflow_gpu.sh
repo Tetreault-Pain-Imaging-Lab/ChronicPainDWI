@@ -9,7 +9,7 @@
 #   - Dti_shells 0 and 1000 (usually <1200), Fodf_shells 0 1000 and 2000 (usually >700, multishell CSD-ms).
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
 
-
+#SBATCH --job-name=gpu_tractoflow
 #SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
                                # See the comment for the cpus-per-task. One general rule could be
                                # that if you have more subjects than cores/cpus (ex, if you process 38

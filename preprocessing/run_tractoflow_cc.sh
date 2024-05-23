@@ -7,7 +7,7 @@
 #   - Dti_shells 0 and 1000 (usually <1200), Fodf_shells 0 1000 and 2000 (usually >700, multishell CSD-ms).
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
 
-
+#SBATCH --job-name=run_tractoflow
 #SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
                                # See the comment for the cpus-per-task. One general rule could be
                                # that if you have more subjects than cores/cpus (ex, if you process 38
@@ -16,7 +16,7 @@
                                # https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
 #SBATCH --mem=0                # --> 0 means you take all the memory of the node. If you think you will need
                                # all the node, you can keep 0.
-#SBATCH --time=01:00:00
+#SBATCH --time=50:00:00
 
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
 #SBATCH --mail-type=BEGIN
@@ -39,7 +39,7 @@ my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/contain
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
 my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results'
+my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results' 
 
 nextflow run $my_main_nf --bids $my_input \
     -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
