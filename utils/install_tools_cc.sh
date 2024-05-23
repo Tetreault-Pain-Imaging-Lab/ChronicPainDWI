@@ -33,7 +33,7 @@ if [ -d "$directory" ]; then
 else
     # Directory does not exist
     echo "Directory does not exists, creating it ..."
-    mkdir "$directory"
+    mkdir -p "$directory"
 fi
 
 # Load the required module
