@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/
+# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil
 
 # Help message function
 display_help() {
@@ -85,13 +85,16 @@ fi
 atlas_folder="${directory}/atlas_dir"
 echo "Atlas folder : ${atlas_folder} "
 
-if [! -d $atlas_folder ];then
+if [ ! -d $atlas_folder ];then
     echo "The atlas folder doesnt exist. Creating it and downoading atlas files"
     wget https://zenodo.org/records/10103446/files/atlas.zip || exit 1
     wget https://zenodo.org/records/10103446/files/config.zip || exit 1
     unzip atlas.zip -d $atlas_folder
     unzip config.zip -d $atlas_folder
+    rm *.zip
+ 
 else
     echo "Atlas folder already exist"
     tree $atlas_folder
 fi
+
