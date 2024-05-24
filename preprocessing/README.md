@@ -3,7 +3,10 @@
 Preprocessing of the MRI was applied to the DWI and T1-w images using [TractoFLow](https://tractoflow-documentation.readthedocs.io/en/latest/index.html). Overall, DWI preprocessing is aimed at preparing the images for the application of local reconstruction models. It mainly consists of the following elements: denoising, artifact correction (eddy current/Foucault currents, motion, susceptibility Topup, truncation/Gibbs ringing), brain extraction, N4 bias correction, cropping, normalization, and resampling. On the other hand, preprocessing of the T1-w images is aimed at calculating tissue maps, seeding masks, and brain parcellations. Its main steps include denoising, brain extraction, N4 bias correction, cropping, and resampling.
 
 ## TractoFlow
-TractoFlow was run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. For easy installation of tractoflow on a Compute Canada cluster, use the `install_tractoflow_and_qc.sh` script. (The pipeline creates 2 folders: results and work. The files in results are symlinks in works. We highly recommend to not remove work folder. See [here](https://tractoflow-documentation.readthedocs.io/en/latest/pipeline/results.html) to transfert or copy-paste the results folder.) 
+TractoFlow was run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. For easy installation of tractoflow on a Compute Canada cluster, see the [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) section and the `install_tools` script.
+(The pipeline creates 2 folders: results and work. The files in results are symlinks to files in work. We highly recommend to not remove work folder. See [here](https://tractoflow-documentation.readthedocs.io/en/latest/pipeline/results.html) to transfert or copy-paste the results folder.) 
+
+*We had a problem with local tracking when not using the use_gpu profile that was resolved by adding the `--local_batch_size_gpu 0` line to the command but it should not be necessary to add this line. This might be fixed in newer versions. date: 2024-05-24*
 
 <details><summary><b>Resources</b></summary>
 
