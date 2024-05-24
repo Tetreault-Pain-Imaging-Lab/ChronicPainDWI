@@ -12,7 +12,7 @@
                                # https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
 #SBATCH --mem=0                # --> 0 means you take all the memory of the node. If you think you will need
                                # all the node, you can keep 0.
-#SBATCH --time=48:00:00
+#SBATCH --time=30:00:00
 
 
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
@@ -28,9 +28,10 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/rbx_flow/main.nf'
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx'
+my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx'
 my_atlas_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/atlas_dir'
 
+cd $my_input
 
 NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
     --input $my_input \

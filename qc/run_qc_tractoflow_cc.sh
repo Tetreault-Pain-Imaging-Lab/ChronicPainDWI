@@ -26,13 +26,15 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/dmriqc_flow/main.nf'
-my_input='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/tractoflow_results'  # depends on the profile option ...
-my_output_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/data/qc_tractoflow_results'
+my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results'  # depends on the profile option ...
+my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/qc_tractoflow'
 
+if [ ! -d $my_output_dir ]; then
+    mkdir $my_output_dir ||
+fi
+cd $my_output_dir
 
 NXF_VER=nextflow/21.10.3 nextflow run $my_main_nf \
     -profile tractoflow_qc_all \
     --input $my_input \
-    --output_dir $my_output_dir \
-    -w "${my_output_dir}/work" \
     -resume

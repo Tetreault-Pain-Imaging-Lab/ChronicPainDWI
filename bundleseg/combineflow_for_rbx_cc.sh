@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exemple usage :
+# bash /home/ludoal/scratch/ChronicPainDWI/bundleseg/combineflow_for_rbx_cc.sh /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx
+
 # display usage information
 usage() {
     echo "Usage: $0 <tractoflow_results_folder> <output_folder>"
@@ -21,7 +24,7 @@ tractoflow_results_folder="$1"
 output_folder="$2"
 
 # tractoflow_results_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results"
-# output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx"
+# output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx"
 
 
 # Command to run the tree_for_rbx_flow.sh script with the specified arguments
@@ -35,8 +38,9 @@ echo "Executing command: $cmd"
 # Execute the command
 eval "$cmd"
 
-
-# ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/*Tracking/*.trk /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1
-# ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/DTI_Metrics/*fa.nii.gz /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1/fa.nii.gz
-
-
+if [ -d "${output_folder}/work" ]; then
+    rm -r "${output_folder}/work"
+fi 
+if [ -d "${output_folder}/report.html" ]; then
+    rm -r "${output_folder}/report.html"
+fi 
