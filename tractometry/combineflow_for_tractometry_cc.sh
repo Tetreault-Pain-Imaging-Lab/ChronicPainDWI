@@ -6,27 +6,30 @@ usage() {
     echo
     echo "Arguments:"
     echo "  tractoflow_results_folder   The path to the TractoFlow results folder."
+    echo "  rbx_results_folder          The path to the TractoFlow results folder."
     echo "  output_folder               The path where to store the outputs."
     exit 1
 }
 
 # Check if the correct number of arguments is provided
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Invalid arguments."
     usage
 fi
 
 # Assign arguments to variables
 tractoflow_results_folder="$1"
-output_folder="$2"
+rbx_results_folder="$2"
+output_folder="$3"
 
 # tractoflow_results_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results"
 # output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx"
 
 
-# Command to run the tree_for_rbx_flow.sh script with the specified arguments
-cmd="/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/combine_flows/tree_for_rbx_flow.sh \
+# Command to run the tree_for_tractometry.sh script with the specified arguments
+cmd="/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/combine_flows/tree_for_tractometry.sh \
     -t $tractoflow_results_folder \
+    -r $rbx_results_folder \
     -o $output_folder"
 
 # Display the command to be executed
@@ -34,9 +37,3 @@ echo "Executing command: $cmd"
 
 # Execute the command
 eval "$cmd"
-
-
-# ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/*Tracking/*.trk /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1
-# ln -s  /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results/sub-002_ses-v1/DTI_Metrics/*fa.nii.gz /home/ludoal/scratch/tpil_data/BIDS_longitudinal/for_rbx/sub-002_ses-v1/fa.nii.gz
-
-

@@ -56,6 +56,7 @@ tractoflow_path="${directory}/tractoflow"
 dmriqc_path="${directory}/dmriqc_flow"
 rbx_path="${directory}/rbx_flow"
 combineflow_path="${directory}/combine_flows"
+tractometryflow_path="${directory}/tractometry_flow"
 
 if [ -d "$tractoflow_path" ]; then
     echo "tractoflow is already installed. Skipping installation"
@@ -79,6 +80,12 @@ if [ -d "$combineflow_path" ]; then
     echo "combine_flow is already installed. Skipping installation"
 else
     git clone https://github.com/scilus/combine_flows.git "$combineflow_path" || exit 1
+fi
+
+if [ -d "$tractometryflow_path" ]; then
+    echo "tractometry_flow is already installed. Skipping installation"
+else
+    git clone https://github.com/scilus/tractometry_flow.git "$tractometryflow_path" || exit 1
 fi
 
 # Create the atlas folder fo bundleseg (using the version 3.1 on https://zenodo.org/records/10103446, there might be newer version)
