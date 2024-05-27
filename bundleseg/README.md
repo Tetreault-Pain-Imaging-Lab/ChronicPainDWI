@@ -35,5 +35,12 @@ page 137-170, (2020), https://savoirs.usherbrooke.ca/handle/11143/17255`
 
 <details><summary><b>Example command</b></summary>
   
-`nextflow run $my_main_nf --input $my_input -with-singularity $my_singularity_img -with-report report.html --atlas_directory $my_atlas_dir -resume`
+```
+nextflow run $my_main_nf \
+    --input $my_input \
+    -with-singularity $my_singularity_img \
+    -with-report report.html \
+    --atlas_directory $my_atlas_dir \
+    -resume
+```
 </details>
