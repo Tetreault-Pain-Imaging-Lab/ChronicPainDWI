@@ -19,17 +19,19 @@ Diffusion-weighted images: (~ 9 min) were obtained using a 2D segmented k-space 
 This repository was made for two reasons:
 1. To document the analysis of the DMRI data of the mentionned dataset done in our lab. (link to article ??? )
 2. To facilitate reproduction of our results or similar analysis on new data.
+
 It is made to be run on a Compute Canada Server, so if anyone intends to use these scripts locally or on another HPC, more significant adaptation of the scripts will be needed.
 
 ### For use on Compute Canada
-If you intend to use this repository ona Compute Canada here is some useful information :  
+If you intend to use this repository on Compute Canada here is some useful information :  
 The utils folder contains scripts to facilitate the organization of the workspace and the installation of the different tools needed for the analysis on a Compute Canada cluster. 
 We recommend that you put a version of your data on your scratch directory, run the scripts on the scratch and only tranfer the results somewhere else afterwards. On the other hand, tools like tractoflow and the scilus containers should be in a directory that won't be periodically purged like the *projects* directory.
+...
 
 
 ## Preprocessing and tractogram generation
 
-In the [preprocessing](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/preprocessing) folder you will find scripts and information to run the first steps of the analysis. The main tool used for this part is [TractoFlow](https://tractoflow-documentation.readthedocs.io/en/latest/index.html) which does the preprocessing of the DWI files and generates tractograms.
+In the [tractoflow](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/preprocessing) folder you will find scripts and information to run the first steps of the analysis. The main tool used for this part is [TractoFlow](https://tractoflow-documentation.readthedocs.io/en/latest/index.html) which does the preprocessing of the DWI files and generates tractograms.
 
 inputs: Raw data in BIDS format (whole dataset)
 outputs: DTI and fODF metrics, ... (tractoflow's result folder)
@@ -42,4 +44,8 @@ In the [bundleseg](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/
 inputs:  ...
 outputs: ...
 
+
+# Tractometry 
+
+...
 
