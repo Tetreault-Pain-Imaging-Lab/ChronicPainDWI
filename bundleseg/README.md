@@ -1,8 +1,8 @@
 # Bundle segmentation
-After running tractoflow, the next step is bundle segmentation which is done using the the [*RecobundlesX* nextflow pipeline](https://scil-documentation.readthedocs.io/en/latest/our_tools/recobundles.html) (rbx_flow). This tool is used to extracts white matter fiber bundles of interest. In order to run *RecobundlesX*, the tractoflow results must be organized a certain way. To facilitate this organization we used [combine_flows](https://github.com/scilus/combine_flows/blob/main/tree_for_bst_flow.sh)
+After running tractoflow, the next step is bundle segmentation which is done using the the [*RecobundlesX* nextflow pipeline](https://scil-documentation.readthedocs.io/en/latest/our_tools/recobundles.html) (rbx_flow). This tool is used to extracts white matter fiber bundles of interest. In order to run *RecobundlesX*, the tractoflow results must be organized a certain way. To facilitate this organization we used [combine_flows](https://github.com/scilus/combine_flows/blob/main/tree_for_bst_flow.sh).
 
 ## combine_flows
-We used the script `combineflow_for_rbx_cc.sh` which simply calls [combine_flows](https://github.com/scilus/combine_flows) to create a directory on which we can run rbx_flow directly. This directory should have the folowing structure before running RecobundlesX :
+We used the script `combineflow_for_rbx_cc.sh` which simply calls the tree_for_rbx_flow.sh script from the [combine_flows](https://github.com/scilus/combine_flows) repository to create a directory on which we can run rbx_flow directly. This directory should have the folowing structure before running RecobundlesX :
 
                                         [root]
                                         ├── S1
@@ -10,6 +10,12 @@ We used the script `combineflow_for_rbx_cc.sh` which simply calls [combine_flows
                                         │   └── *tracking.trk
                                         └── S2
                                             └── *
+
+<details><summary><b>Resources</b></summary>
+
+  * [Github repository](https://github.com/scilus/combine_flows)
+    
+</details>
 
 
 ## RecobundlesX
