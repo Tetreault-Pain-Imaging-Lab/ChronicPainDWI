@@ -44,3 +44,9 @@ nextflow run $my_main_nf \
     -resume
 ```
 </details>
+
+<details><summary><b>Outputs ... voir Paul </b></summary>
+  
+... 
+
+</details>
