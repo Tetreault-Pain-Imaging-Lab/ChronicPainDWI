@@ -2,10 +2,27 @@
 After running tractoflow, the next step is bundle segmentation which is done using the the [*RecobundlesX* nextflow pipeline](https://scil-documentation.readthedocs.io/en/latest/our_tools/recobundles.html) (rbx_flow). This tool is used to extracts white matter fiber bundles of interest. In order to run *RecobundlesX*, the tractoflow results must be organized a certain way. To facilitate this organization we used [combine_flows](https://github.com/scilus/combine_flows/blob/main/tree_for_bst_flow.sh)
 
 ## combine_flows
-...
+We used the script `combineflow_for_rbx_cc.sh` which simply calls [combine_flows](https://github.com/scilus/combine_flows) to create a directory on which we can run rbx_flow directly. This directory should have the folowing structure before running RecobundlesX :
+
+                                        [root]
+                                        ├── S1
+                                        │   ├── *fa.nii.gz
+                                        │   └── *tracking.trk
+                                        └── S2
+                                            └── *
+
 
 ## RecobundlesX
 The script used to lauch this pipeline is `run_rbx_cc.sh`. It uses the atlas recommended by the scilus lab ([version 3.1 on zenodo](https://zenodo.org/records/10103446) ). The script `install_tools_cc.sh` presented in [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) automatically downloads the atlas files in a format that is ready to be used as the `--atlas_directory` option in the command line of rbx_flow. 
+
+The path to the folder containing atlas should look like this :
+            
+                                        ├── atlas
+                                        │   └── pop_average
+                                        ├── centroids
+                                        ├── config_fss_1.json
+                                        ├── config_fss_2.json
+                                        └── mni_masked.nii.gz 
 
 <details><summary><b>Resources</b></summary>
 
