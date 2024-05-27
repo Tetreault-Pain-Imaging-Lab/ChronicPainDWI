@@ -24,12 +24,12 @@
 #SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/rbx/slurm-%A.out"
 
 
-module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
-
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/rbx_flow/main.nf'
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx'
+my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_rbx'
 my_atlas_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/atlas_dir'
+
+module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 cd $my_input
 

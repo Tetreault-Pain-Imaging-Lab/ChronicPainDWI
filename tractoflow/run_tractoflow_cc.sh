@@ -36,7 +36,7 @@ my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/contain
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
 my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_tractoflow'
+my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
 
 if [ ! -d $my_output_dir ]; then
     mkdir $my_output_dir
