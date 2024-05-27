@@ -26,11 +26,12 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractometry_flow/main.nf'
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results' 
+my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry'
 
-nextflow run $my_main_nf --bids $my_input \
-    -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
-    --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
-    --output_dir $my_output_dir \
-    --local_batch_size_gpu 0
+cd $my_input
+
+nextflow run $my_main_nf \
+    --input $my_input \
+    -with-singularity $my_singularity_img -resume \
+    --skip_projection_endpoints_metrics \
+    --use_provided_centroids
