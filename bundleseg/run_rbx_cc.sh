@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This would run RecobundleX with the following parameters:
-#   - Population average atlas for RecobundlesX. DOI: 10.5281/zenodo.5165374
+#   - Population average atlas for RecobundlesX. DOI:  10.5281/zenodo.10103446
 
 #SBATCH --job-name=rbx
 #SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
@@ -33,9 +33,18 @@ my_atlas_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/atlas_dir'
 
 cd $my_input
 
-NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
+cmd="NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
     --input $my_input \
     -with-singularity $my_singularity_img \
     -with-report report.html \
     --atlas_directory $my_atlas_dir \
-    -resume 
+    -resume"
+
+eval $cmd
+
+
+current_date=$(date)
+echo -e "Rbx pipeline\n" > readme.txt
+echo -e "Date : $current_date\n" > readme.txt
+echo -e "[Command-Line]\n" > readme.txt
+echo $cmd > readme.txt

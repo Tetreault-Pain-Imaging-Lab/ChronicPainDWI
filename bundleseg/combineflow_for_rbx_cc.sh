@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Exemple usage :
-# bash /home/ludoal/scratch/ChronicPainDWI/bundleseg/combineflow_for_rbx_cc.sh /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx
+# bash /home/ludoal/scratch/ChronicPainDWI/bundleseg/combineflow_for_rbx_cc.sh /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_tractoflow /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx
 
 # display usage information
 usage() {

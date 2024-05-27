@@ -2,7 +2,7 @@
 
 
 #SBATCH --job-name=run_tractometry
-#SBATCH --time=30:00:00
+#SBATCH --time=1:00:00
 #SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
                                # See the comment for the cpus-per-task. One general rule could be
                                # that if you have more subjects than cores/cpus (ex, if you process 38
@@ -26,12 +26,20 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractometry_flow/main.nf'
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry'
+my_input="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry"
 
-cd $my_input
+cd "$my_input" 
 
-nextflow run $my_main_nf \
+cmd="nextflow run $my_main_nf \
     --input $my_input \
     -with-singularity $my_singularity_img -resume \
     --skip_projection_endpoints_metrics \
-    --use_provided_centroids
+    --use_provided_centroids"
+
+eval cmd
+
+current_date=$(date)
+echo -e "Tractometry pipeline\n" > readme.txt
+echo -e "Date : $current_date\n" > readme.txt
+echo -e "[Command-Line]\n" > readme.txt
+echo $cmd > readme.txt
