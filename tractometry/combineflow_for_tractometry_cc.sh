@@ -2,7 +2,7 @@
 
 tractoflow_results_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results"
 rbx_results_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_rbx/results_rbx"
-output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry"
+output_folder="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_tractometry"
 
 
 # Command to run the tree_for_tractometry.sh script with the specified arguments

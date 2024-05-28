@@ -26,7 +26,7 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractometry_flow/main.nf'
-my_input="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry"
+my_input="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_tractometry"
 
 cd "$my_input" 
 
@@ -36,7 +36,7 @@ cmd="nextflow run $my_main_nf \
     --skip_projection_endpoints_metrics \
     --use_provided_centroids"
 
-eval cmd
+eval $cmd
 
 current_date=$(date)
 echo -e "Tractometry pipeline\n" > readme.txt
