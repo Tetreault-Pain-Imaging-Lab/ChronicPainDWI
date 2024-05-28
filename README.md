@@ -4,7 +4,7 @@ The starting point and aim of this project is to use diffusion MRI to improve ou
 
 
 ## Dataset
-
+ 
 The dataset consists of 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For complete information about the dataset and acquisition see ... 
 
 All participants were imaged using a 3.0 T MRI scanner (Philips Ingenia, Siemens) across T1-weighted, BOLD, TOF, SWI and diffusion weighted contrasts. 
@@ -45,7 +45,7 @@ inputs:  ...
 outputs: ...
 
 
-# Tractometry 
+## Tractometry 
 
 ...
 
