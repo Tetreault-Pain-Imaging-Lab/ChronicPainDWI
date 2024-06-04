@@ -24,4 +24,13 @@ https://doi.org/10.1371/journal.pone.0177459
 P. Di Tommaso, et al. Nextflow enables reproducible computational workflows.
 Nature Biotechnology 35, 316–319 (2017) https://doi.org/10.1038/nbt.3820
 ```
+</details>
+
+
+<details><summary><b>Example command</b></summary>
+
+```
+
+```
+</details>
 
