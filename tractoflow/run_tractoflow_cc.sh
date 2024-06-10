@@ -6,6 +6,7 @@
 #   - with-report: outputs a processing report when pipeline is finished running
 #   - Dti_shells 0 and 1000 (usually <1200), Fodf_shells 0 1000 and 2000 (usually >700, multishell CSD-ms).
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
+#   --local_batch_size_gpu 0 : This prevents it from crahsing when not using gpus
 
 #SBATCH --job-name=run_tractoflow
 #SBATCH --time=30:00:00
@@ -18,22 +19,16 @@
 #SBATCH --mem=0                # --> 0 means you take all the memory of the node. If you think you will need
                                # all the node, you can keep 0.
 
-
-#SBATCH --mail-user=ludo.a.levesque@gmail.com
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-type=REQUEUE
-#SBATCH --mail-type=ALL
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/slurm-%A.out"
+#SBATCH --output="/outputs/slurm-%A.out"  # Path for the slurm output files
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
-
-## test sans output_dir option
+# Path where you installed the scilus container (see utils/instal_tools)
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
+# Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
+# Path to the BIDS formated data (containing all subjects and all sesions)
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
 my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
 my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
