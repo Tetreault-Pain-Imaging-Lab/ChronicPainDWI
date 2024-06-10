@@ -35,7 +35,15 @@ $my_input=/path/to/[root]     Input folder containg multiple subjects
 
 
 For easy installation of tractoflow on a Compute Canada cluster, see the [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) section and the `install_tools` script.
- 
+
+In our script we use the following option :
+```
+--bidsignore $my_bidsignore \
+```
+This allows the bids validation to skip some files that you don't need. In our case the .bidsignore_tractoflow file contains only one line :
+```
+sub-*/ses-v*/fmap/sub-*_ses*_acq-rest*
+```
 
 *We had a problem with local tracking when not using the use_gpu profile that was resolved by adding the `--local_batch_size_gpu 0` line to the command but it should not be necessary to add this line. This might be fixed in newer versions. date: 2024-05-24*
 
