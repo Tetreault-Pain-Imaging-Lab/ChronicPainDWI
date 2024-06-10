@@ -2,7 +2,7 @@
 
 
 ## QualityControl
-Using the *dmri_qc* nextflow pipeline it is possible to check DWIs and the processed DWIs. A more in depth description and installation intruction can be found [here](https://scil-documentation.readthedocs.io/en/latest/our_tools/other_pipelines.html). The scipts used to run dmriqc_flow was `run_qc_tractoflow_cc.sh`
+Using the *dmri_qc* nextflow pipeline it is possible to check DWIs and the processed DWIs. A more in depth description and installation intruction can be found [here](https://scil-documentation.readthedocs.io/en/latest/our_tools/other_pipelines.html). 
 
 <details><summary><b>Resources</b></summary>
   
