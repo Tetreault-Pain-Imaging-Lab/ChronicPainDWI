@@ -3,7 +3,38 @@
 Preprocessing of the MRI was applied to the DWI and T1-w images using [TractoFLow](https://tractoflow-documentation.readthedocs.io/en/latest/index.html). Overall, DWI preprocessing is aimed at preparing the images for the application of local reconstruction models. It mainly consists of the following elements: denoising, artifact correction (eddy current/Foucault currents, motion, susceptibility Topup, truncation/Gibbs ringing), brain extraction, N4 bias correction, cropping, normalization, and resampling. On the other hand, preprocessing of the T1-w images is aimed at calculating tissue maps, seeding masks, and brain parcellations. Its main steps include denoising, brain extraction, N4 bias correction, cropping, and resampling.
 
 ## TractoFlow
-TractoFlow was run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. For easy installation of tractoflow on a Compute Canada cluster, see the [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) section and the `install_tools` script.
+TractoFlow was run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. 
+
+the structure of the input data should look like :
+
+```
+$my_input=/path/to/[root]     Input folder containg multiple subjects
+
+                   [root]
+                   ├── dataset_description.json
+                   ├── participants.json
+                   ├── sub-002
+                   │   ├── ses-v1
+                   │   │   ├── anat
+                   │   │   │   ├── sub-002_ses-v1_*.json
+                   │   │   │   └── sub-002_ses-v1_*.nii.gz
+                   │   │   ├── fmap
+                   │   │   │   ├── sub-002_ses-v1_*.json
+                   │   │   │   └── sub-002_ses-v1_*.nii.gz
+                   │   │   └── func
+                   │   │       ├── sub-002_ses-v1*_bold.json
+                   │   │       └── sub-002_ses-v1*_bold.nii.gz
+                   │   ├── ses-v2
+                   │   |   └── ...
+                   │   └── ses-v3
+                   │   |   └── ...
+                   ├── sub-004
+                   │   └── ...
+
+```
+
+
+For easy installation of tractoflow on a Compute Canada cluster, see the [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) section and the `install_tools` script.
  
 
 *We had a problem with local tracking when not using the use_gpu profile that was resolved by adding the `--local_batch_size_gpu 0` line to the command but it should not be necessary to add this line. This might be fixed in newer versions. date: 2024-05-24*
