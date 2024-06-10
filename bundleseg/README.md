@@ -4,12 +4,15 @@ After running tractoflow, the next step is bundle segmentation which is done usi
 ## combine_flows
 We used the script `combineflow_for_rbx_cc.sh` which simply calls the tree_for_rbx_flow.sh script from the [combine_flows](https://github.com/scilus/combine_flows) repository to create a directory on which we can run rbx_flow directly. This directory should have the folowing structure before running RecobundlesX :
 
+```
                                         [root]
                                         ├── S1
                                         │   ├── *fa.nii.gz
                                         │   └── *tracking.trk
                                         └── S2
                                             └── *
+```
+combine_flows creates symlinks to the work folder containing the actual files created by tractoflow so make sure you haven't moved the /results or /work folder after running tractoflow.
 
 <details><summary><b>Resources</b></summary>
 
