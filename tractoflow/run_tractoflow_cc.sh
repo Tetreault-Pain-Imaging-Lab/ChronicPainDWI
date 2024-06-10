@@ -30,6 +30,7 @@ my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/contain
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
 # Path to the BIDS formated data (containing all subjects and all sesions)
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
+# Path to a .bidsignore_tractoflow file (see the README for more info)
 my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
 my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
 
