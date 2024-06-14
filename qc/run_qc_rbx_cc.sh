@@ -28,6 +28,7 @@ my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/contain
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/dmriqc_flow/main.nf'
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_rbx/results_rbx'  # depends on the profile option ...
 my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-06-14_qc_rbx'
+my_profile='rbx_qc'
 
 if [ ! -d $my_output_dir ]; then
     mkdir $my_output_dir 
@@ -35,7 +36,7 @@ fi
 cd $my_output_dir
 
 NXF_VER=nextflow/21.10.3 nextflow run $my_main_nf \
-    -profile tractoflow_qc_all \
+    -profile $my_profile \
     --input $my_input \
     -with-singularity $my_singularity_img \
     -resume
