@@ -1,5 +1,3 @@
-*NOT FUNCTIONNAL : missing dmriqc.py scripts in the dmriqc_flow repo on github. try installing dmriqcpy and adding to path *
-
 
 ## QualityControl
 Using the *dmri_qc* nextflow pipeline it is possible to check DWIs and the processed DWIs. A more in depth description and installation intruction can be found [here](https://scil-documentation.readthedocs.io/en/latest/our_tools/other_pipelines.html). 
