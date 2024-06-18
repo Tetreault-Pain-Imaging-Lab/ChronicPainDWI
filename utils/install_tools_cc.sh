@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil
+# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools
 
 # Help message function
 display_help() {

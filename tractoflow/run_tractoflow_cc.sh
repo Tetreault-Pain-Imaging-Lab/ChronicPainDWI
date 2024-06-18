@@ -8,18 +8,27 @@
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
 #   --local_batch_size_gpu 0 : This prevents it from crahsing when not using gpus
 
+# SLURM Parameters:
+#   --nodes: Number of nodes to allocate. Generally depends on the number of subjects and available cores per task.
+#            If you have more subjects than cores (e.g., 38 subjects and 32 cpus-per-task), consider requesting an additional node.
+#   --cpus-per-task: Number of CPUs to allocate per task. Choose based on your cluster's available configurations. 
+#                    For example, Beluga allows 32, 40, or 64 CPUs per task.
+#                    More information: https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
+#   --mem: Memory allocation per node. Setting this to 0 allocates all available memory on the node.
+#          Adjust based on expected memory usage.
+#   --time: Maximum job runtime. Adjust based on your pipeline's expected duration.
+#   --mail-user: Email address for job notifications.
+#   --mail-type: Conditions under which to send job status emails (BEGIN, END, FAIL, REQUEUE, ALL).
+#   --output: Path to the output log file for the SLURM job. %A is the job ID.
+#
+# To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
+
 #SBATCH --job-name=run_tractoflow
 #SBATCH --time=30:00:00
-#SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
-                               # See the comment for the cpus-per-task. One general rule could be
-                               # that if you have more subjects than cores/cpus (ex, if you process 38
-                               # subjects on 32 cpus-per-task), you could ask for one more node.
-#SBATCH --cpus-per-task=32     # --> You can see here the choices. For beluga, you can choose 32, 40 or 64.
-                               # https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
-#SBATCH --mem=0                # --> 0 means you take all the memory of the node. If you think you will need
-                               # all the node, you can keep 0.
-
-#SBATCH --output="/outputs/slurm-%A.out"  # Path for the slurm output files
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=0
+#SBATCH --output="/outputs/slurm-%A.out"  
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8

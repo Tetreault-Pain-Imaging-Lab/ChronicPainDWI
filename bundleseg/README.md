@@ -5,12 +5,13 @@ After running tractoflow, the next step is bundle segmentation which is done usi
 We used the script `combineflow_for_rbx_cc.sh` which simply calls the tree_for_rbx_flow.sh script from the [combine_flows](https://github.com/scilus/combine_flows) repository to create a directory on which we can run rbx_flow directly. This directory should have the folowing structure before running RecobundlesX :
 
 ```
-                                        [root]
-                                        ├── S1
+                                        [rbx]
+                                        ├── sub-001_ses-v1
                                         │   ├── *fa.nii.gz
                                         │   └── *tracking.trk
-                                        └── S2
-                                            └── *
+                                        └── sub-001_ses-v2
+                                        │    ...
+                                        └── sub-002_ses-v2 
 ```
 combine_flows creates symlinks to the work folder containing the actual files created by tractoflow so make sure you haven't moved the /results or /work folder after running tractoflow.
 
@@ -25,7 +26,7 @@ combine_flows creates symlinks to the work folder containing the actual files cr
 The script used to lauch this pipeline is `run_rbx_cc.sh`. It uses the atlas recommended by the scilus lab ([version 3.1 on zenodo](https://zenodo.org/records/10103446) ). The script `install_tools_cc.sh` presented in [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) automatically downloads the atlas files in a format that is ready to be used as the `--atlas_directory` option in the command line of rbx_flow. 
 
 The path to the folder containing atlas should look like this :
-            
+                                      [atlas_dir]
                                         ├── atlas
                                         │   └── pop_average
                                         ├── centroids
@@ -54,8 +55,20 @@ nextflow run $my_main_nf \
 ```
 </details>
 
-<details><summary><b>Outputs ... voir Paul </b></summary>
+<details><summary><b>Outputs</b></summary>
   
-... 
+the outputs structure should look like this:
+```
+               [results_rbx]
+            │   ├── sub-001_ses-v1
+            │   │   ├── Clean_Bundles
+            │   │   ├── Recognize_Bundles
+            │   │   ├── Register_Anat
+            │   │   └── Transform_Centroids
+            │   ├── sub-001_ses-v2
+            │   │   └── ...
+            │   ├── sub-002_ses-v1
+...
+```
 
 </details>
