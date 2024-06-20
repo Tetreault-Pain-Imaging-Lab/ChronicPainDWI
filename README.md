@@ -15,6 +15,18 @@ All participants were scanned using a 3.0 T MRI scanner (Philips Ingenia, Siemen
 This repository serves two main purposes:
 1. **Document Analysis**: It contains scripts for the analysis of the DMRI data, detailing parameters used at each processing and analysis step.
 2. **Facilitate Reproduction**: Enables reproduction of our results or similar analyses on new data.
+   
+### Forking the Repository for personal use
+If you would like to use and customize this repository for your own purposes, we recommend forking it. Forking allows you to have your own version of this project that you can modify and maintain independently of the original codebase. Here’s how you can fork this repository:
+
+Create a Fork: Simply click the “Fork” button at the top-right corner of this repository's GitHub page. This action will create a copy of this repository in your own GitHub account.
+
+Clone Your Fork: After forking, clone the forked repository to your local machine to make your changes. You can do this by running:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+```
+
 
 ### Running on Compute Canada
 
