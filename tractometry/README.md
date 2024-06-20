@@ -59,6 +59,7 @@ nextflow run $my_main_nf \
 ```
 </details>
 the outputs structure should look like this:
+
 ```
             [results_tractometry]
             ├── Statistics
