@@ -26,13 +26,15 @@ combine_flows creates symlinks to the work folder containing the actual files cr
 The script used to lauch this pipeline is `run_rbx_cc.sh`. It uses the atlas recommended by the scilus lab ([version 3.1 on zenodo](https://zenodo.org/records/10103446) ). The script `install_tools_cc.sh` presented in [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) automatically downloads the atlas files in a format that is ready to be used as the `--atlas_directory` option in the command line of rbx_flow. 
 
 The path to the folder containing atlas should look like this :
+```
                                       [atlas_dir]
                                         ├── atlas
                                         │   └── pop_average
                                         ├── centroids
                                         ├── config_fss_1.json
                                         ├── config_fss_2.json
-                                        └── mni_masked.nii.gz 
+                                        └── mni_masked.nii.gz
+```
 
 <details><summary><b>Resources</b></summary>
 
