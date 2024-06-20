@@ -24,25 +24,24 @@
 # To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
 
 #SBATCH --job-name=run_tractoflow
-#SBATCH --time=30:00:00
+#SBATCH --time=10:00:00
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=32
-#SBATCH --mem=0
-#SBATCH --output="/outputs/slurm-%A.out"  
+#SBATCH --cpus-per-task=5
+#SBATCH --mem=10G
+#SBATCH --output="/outputs/ulaval/tractoflow/slurm-%A.out"  
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 # Path where you installed the scilus container (see utils/instal_tools)
-my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
+my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif' # or .img
 # Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
+my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/tractoflow/main.nf'
 # Path to the BIDS formated data (containing all subjects and all sesions)
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
-# Path to a .bidsignore_tractoflow file (see the README for more info). Remove the --bidsignore $my_bidsignore line if you don't use it
-my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
+my_input='/home/ludoal/scratch/ulaval_test/data'
 # Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
+my_output_dir='/home/ludoal/scratch/ulaval_test/data/results/tractoflow/'
+
 
 if [ ! -d $my_output_dir ]; then
     mkdir $my_output_dir
@@ -52,5 +51,4 @@ cd $my_output_dir
 nextflow run $my_main_nf --bids $my_input \
     -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
     --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
-    --bidsignore $my_bidsignore \
     --local_batch_size_gpu 0
