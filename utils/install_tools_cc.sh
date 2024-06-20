@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script is mean to be used on compute canada. 
+# It installs all the tools needed to use the scripts of this repository in a directory specified as an argument. 
+
+
 # Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools
 
 # Help message function
