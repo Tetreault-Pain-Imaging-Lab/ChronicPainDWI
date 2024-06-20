@@ -1,106 +1,129 @@
 #!/bin/bash
 
+# This script installs all the tools needed for the scripts in this repository
+# on Compute Canada. It installs the following tools in the specified directory.
+#
 # Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools
+# 
+# What gets installed :
+        # 1. scilus_1.6.0.sif
+        # - Downloaded and moved to the specified containers directory.
 
-# Help message function
+        # 2. tractoflow
+        # - Cloned from https://github.com/scilus/tractoflow.git.
+
+        # 3. dmriqc_flow
+        # - Cloned from https://github.com/scilus/dmriqc_flow.git.
+
+        # 4. rbx_flow
+        # - Cloned from https://github.com/scilus/rbx_flow.git.
+
+        # 5. combine_flows
+        # - Cloned from https://github.com/scilus/combine_flows.git.
+
+        # 6. tractometry_flow
+        # - Cloned from https://github.com/scilus/tractometry_flow.git.
+
+        # 7. Atlas files for bundleseg
+        # - Downloaded from https://zenodo.org/record/10103446 and extracted to the atlas directory.
+
+# Function to display the help message
 display_help() {
-    echo "Usage: $0 [directory]"
-    echo "Installs the scilus lab's tools usefull for DMRI in the specified directory."
-    echo "Arguments:"
-    echo "  directory  The directory where the tools will be installed."
+    cat << EOF
+Usage: $0 [options] <directory>
+
+Installs Scilus lab's tools useful for DMRI in the specified directory.
+
+Options:
+  -h, --help          Display this help message and exit.
+  
+Arguments:
+  directory           The directory where the tools will be installed.
+EOF
 }
 
-# Check for the --help option
-if [[ "$1" == "--help" ]]; then
-    display_help
-    exit 0
-fi
+# Function to check and create directory if it doesn't exist
+check_and_create_directory() {
+    local dir="$1"
+    if [ ! -d "$dir" ]; then
+        echo "Directory '$dir' does not exist. Creating it..."
+        mkdir -p "$dir" || { echo "Failed to create directory '$dir'. Exiting..."; exit 1; }
+    else
+        echo "Directory '$dir' exists."
+    fi
+}
 
-# Check for the number of command-line arguments
-if [[ $# -eq 0 ]]; then
-    echo "Error: Not enough arguments. Provide the directory where you want to install TractoFlow."
-    exit 1
-elif [[ $# -gt 1 ]]; then
-    echo "Error: Too many arguments."
-    exit 1
-fi
+# Function to load modules
+load_modules() {
+    echo "Loading required modules..."
+    module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8 || { echo "Failed to load modules. Exiting..."; exit 1; }
+}
 
-# Initialize a variable 'directory' with the value of the argument
-directory="$1"
-if [ -d "$directory" ]; then
-    # Directory exists
-    echo "Directory exists."
-else
-    # Directory does not exist
-    echo "Directory does not exists, creating it ..."
-    mkdir -p "$directory"
-fi
+# Function to download and move .sif file
+download_sif() {
+    local dir="$1/containers"
+    check_and_create_directory "$dir"
+    local sif_file="$dir/scilus_1.6.0.sif"
+    if [ ! -f "$sif_file" ]; then
+        echo "Downloading scilus_1.6.0.sif..."
+        wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif -P "$dir" || { echo "Failed to download scilus_1.6.0.sif. Exiting..."; exit 1; }
+    else
+        echo "scilus_1.6.0.sif is already installed."
+    fi
+}
 
-# Load the required module
-module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
+# Function to clone repository if not already cloned
+clone_repo() {
+    local repo_url="$1"
+    local target_dir="$2"
+    if [ ! -d "$target_dir" ]; then
+        echo "Cloning $(basename "$repo_url") into '$target_dir'..."
+        git clone "$repo_url" "$target_dir" || { echo "Failed to clone $(basename "$repo_url"). Exiting..."; exit 1; }
+    else
+        echo "$(basename "$repo_url") is already installed. Skipping."
+    fi
+}
 
-# Build the .sif file in a directory called containers
-if [ ! -d "${directory}/containers" ]; then
-    mkdir "${directory}/containers" || { echo "Failed to create containers directory. Exiting..."; exit 1; }
-fi
+# Function to setup the atlas directory
+setup_atlas() {
+    local dir="$1/atlas_dir"
+    check_and_create_directory "$dir"
+    if [ ! "$(ls -A $dir)" ]; then
+        echo "Downloading and setting up atlas files..."
+        wget https://zenodo.org/record/10103446/files/atlas.zip -P "$dir" || { echo "Failed to download atlas.zip. Exiting..."; exit 1; }
+        wget https://zenodo.org/record/10103446/files/config.zip -P "$dir" || { echo "Failed to download config.zip. Exiting..."; exit 1; }
+        unzip "$dir/atlas.zip" -d "$dir" || { echo "Failed to unzip atlas.zip. Exiting..."; exit 1; }
+        unzip "$dir/config.zip" -d "$dir" || { echo "Failed to unzip config.zip. Exiting..."; exit 1; }
+        rm "$dir"/*.zip
+    else
+        echo "Atlas folder already exists."
+    fi
+}
 
-if [ ! -f "${directory}/containers/scilus_1.6.0.sif" ]; then
-    wget https://scil.usherbrooke.ca/containers/scilus_1.6.0.sif || exit 1
-    mv scilus_1.6.0.sif "${directory}/containers"
-else
-    echo "scilus_1.6.0.sif is already installed" 
-fi
+# Main script execution
+main() {
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        display_help
+        exit 0
+    fi
 
-# Clone the necessary repository in the specified directory
-tractoflow_path="${directory}/tractoflow"
-dmriqc_path="${directory}/dmriqc_flow"
-rbx_path="${directory}/rbx_flow"
-combineflow_path="${directory}/combine_flows"
-tractometryflow_path="${directory}/tractometry_flow"
+    if [ $# -ne 1 ]; then
+        echo "Error: Invalid number of arguments."
+        display_help
+        exit 1
+    fi
 
-if [ -d "$tractoflow_path" ]; then
-    echo "tractoflow is already installed. Skipping installation"
-else
-    git clone https://github.com/scilus/tractoflow.git "$tractoflow_path" || exit 1
-fi
+    local directory="$1"
+    check_and_create_directory "$directory"
+    load_modules
+    download_sif "$directory"
+    clone_repo "https://github.com/scilus/tractoflow.git" "$directory/tractoflow"
+    clone_repo "https://github.com/scilus/dmriqc_flow.git" "$directory/dmriqc_flow"
+    clone_repo "https://github.com/scilus/rbx_flow.git" "$directory/rbx_flow"
+    clone_repo "https://github.com/scilus/combine_flows.git" "$directory/combine_flows"
+    clone_repo "https://github.com/scilus/tractometry_flow.git" "$directory/tractometry_flow"
+    setup_atlas "$directory"
+}
 
-if [ -d "$dmriqc_path" ]; then
-    echo "dmriqc_flow is already installed.Skipping installation"
-else
-    git clone https://github.com/scilus/dmriqc_flow.git "$dmriqc_path" || exit 1
-fi
-
-if [ -d "$rbx_path" ]; then
-    echo "rbx_flow is already installed. Skipping installation"
-else
-    git clone https://github.com/scilus/rbx_flow.git "$rbx_path" || exit 1
-fi
-
-if [ -d "$combineflow_path" ]; then
-    echo "combine_flow is already installed. Skipping installation"
-else
-    git clone https://github.com/scilus/combine_flows.git "$combineflow_path" || exit 1
-fi
-
-if [ -d "$tractometryflow_path" ]; then
-    echo "tractometry_flow is already installed. Skipping installation"
-else
-    git clone https://github.com/scilus/tractometry_flow.git "$tractometryflow_path" || exit 1
-fi
-
-# Create the atlas folder fo bundleseg (using the version 3.1 on https://zenodo.org/records/10103446, there might be newer version)
-atlas_folder="${directory}/atlas_dir"
-echo "Atlas folder : ${atlas_folder} "
-
-if [ ! -d $atlas_folder ];then
-    echo "The atlas folder doesnt exist. Creating it and downoading atlas files"
-    wget https://zenodo.org/records/10103446/files/atlas.zip || exit 1
-    wget https://zenodo.org/records/10103446/files/config.zip || exit 1
-    unzip atlas.zip -d $atlas_folder
-    unzip config.zip -d $atlas_folder
-    rm *.zip
- 
-else
-    echo "Atlas folder already exist"
-    tree $atlas_folder
-fi
+# Run the main function
+main "$@"
