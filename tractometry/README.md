@@ -58,7 +58,9 @@ nextflow run $my_main_nf \
     --use_provided_centroids
 ```
 </details>
-the outputs structure should look like this:
+
+<details><summary><b>Outputs</b></summary>
+The outputs structure should look like this:
 
 ```
             [results_tractometry]
@@ -79,4 +81,4 @@ the outputs structure should look like this:
             │   ├── sub-002_ses-v1
             ...
 ```
-
+</details>
