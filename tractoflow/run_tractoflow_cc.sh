@@ -45,7 +45,7 @@ my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_trac
 my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
 
 if [ ! -d $my_output_dir ]; then
-    mkdir $my_output_dir
+    mkdir -p $my_output_dir
 fi
 cd $my_output_dir
 
