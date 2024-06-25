@@ -28,7 +28,7 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=0
-#SBATCH --output="/outputs/slurm-%A.out"  
+#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/slurm-%A.out"  
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
