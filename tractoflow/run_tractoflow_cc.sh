@@ -28,7 +28,13 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=5
 #SBATCH --mem=10G
-#SBATCH --output="/outputs/ulaval/tractoflow/slurm-%A.out"  
+#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-%A.out"  
+#SBATCH --mail-user=ludo.a.levesque@gmail.com
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
@@ -40,11 +46,11 @@ my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/tractoflo
 # Path to the BIDS formated data (containing all subjects and all sesions)
 my_input='/home/ludoal/scratch/ulaval_test/data'
 # Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
-my_output_dir='/home/ludoal/scratch/ulaval_test/data/results/tractoflow/'
+my_output_dir='/home/ludoal/scratch/ulaval_test/results/tractoflow/'
 
 
 if [ ! -d $my_output_dir ]; then
-    mkdir $my_output_dir
+    mkdir -p $my_output_dir
 fi
 cd $my_output_dir
 
