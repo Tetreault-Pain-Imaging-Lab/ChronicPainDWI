@@ -34,9 +34,9 @@
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
 
 # Path where you installed the scilus container (see utils/instal_tools)
-my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
+my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif' # or .img
 # Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractoflow/main.nf'
+my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/tractoflow/main.nf'
 # Path to the BIDS formated data (containing all subjects and all sesions)
 my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
 # Path to a .bidsignore_tractoflow file (see the README for more info). Remove the --bidsignore $my_bidsignore line if you don't use it
