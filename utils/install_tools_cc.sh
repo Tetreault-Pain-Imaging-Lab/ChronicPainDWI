@@ -24,7 +24,10 @@
         # 6. tractometry_flow
         # - Cloned from https://github.com/scilus/tractometry_flow.git.
 
-        # 7. Atlas files for bundleseg
+        # 7. connectoflow
+        # - Cloned from https://github.com/scilus/connectoflow.git.
+
+        # 8. Atlas files for bundleseg and conectoflow
         # - Downloaded from https://zenodo.org/record/10103446 and extracted to the atlas directory.
 
 # Function to display the help message
@@ -122,6 +125,8 @@ main() {
     clone_repo "https://github.com/scilus/rbx_flow.git" "$directory/rbx_flow"
     clone_repo "https://github.com/scilus/combine_flows.git" "$directory/combine_flows"
     clone_repo "https://github.com/scilus/tractometry_flow.git" "$directory/tractometry_flow"
+    clone_repo "https://github.com/scilus/connectoflow.git" "$directory/connectoflow"
+
     setup_atlas "$directory"
 }
 
