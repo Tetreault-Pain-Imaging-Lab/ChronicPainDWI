@@ -26,7 +26,7 @@
 #SBATCH --job-name=run_tractoflow
 #SBATCH --time=10:00:00
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=5
+#SBATCH --cpus-per-task=10 
 #SBATCH --mem=10G
 #SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-%A.out"  
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
@@ -52,6 +52,7 @@ my_output_dir='/home/ludoal/scratch/ulaval_test/results/tractoflow/'
 if [ ! -d $my_output_dir ]; then
     mkdir -p $my_output_dir
 fi
+
 cd $my_output_dir
 
 nextflow run $my_main_nf --bids $my_input \
