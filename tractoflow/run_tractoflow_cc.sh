@@ -24,7 +24,7 @@
 # To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
 
 #SBATCH --job-name=run_tractoflow
-#SBATCH --time=30:00:00
+#SBATCH --time=50:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=0
