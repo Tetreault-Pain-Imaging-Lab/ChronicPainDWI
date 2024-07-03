@@ -24,33 +24,45 @@
 # To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
 
 #SBATCH --job-name=run_tractoflow
-#SBATCH --time=30:00:00
+#SBATCH --time=50:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=0
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/slurm-%A.out"  
+
+#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-%A.out"  
+#SBATCH --mail-user=ludo.a.levesque@gmail.com
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
 
 
-module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
+
+
+
+module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
 
 # Path where you installed the scilus container (see utils/instal_tools)
 my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif' # or .img
 # Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
 my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/tractoflow/main.nf'
 # Path to the BIDS formated data (containing all subjects and all sesions)
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test'
-# Path to a .bidsignore_tractoflow file (see the README for more info). Remove the --bidsignore $my_bidsignore line if you don't use it
-my_bidsignore='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/.bidsignore_tractoflow' 
+my_input='/home/ludoal/scratch/ulaval_test/data'
 # Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow'
+my_output_dir='/home/ludoal/scratch/ulaval_test/results/tractoflow/'
+
 
 if [ ! -d $my_output_dir ]; then
     mkdir -p $my_output_dir
 fi
+
 cd $my_output_dir
+
+export APPTAINERENV_MPLCONFIGDIR="${my_output_dir}/tmp"
+mkdir $APPTAINERENV_MPLCONFIGDIR
 
 nextflow run $my_main_nf --bids $my_input \
     -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
     --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
-    --bidsignore $my_bidsignore \
     --local_batch_size_gpu 0
