@@ -14,3 +14,4 @@ config.zip
 test*
 tractometry/tree_for_tractometry_cc.sh
 tractoflow/run_tractoflow_gpu.sh
+nilearn*
