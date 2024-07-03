@@ -28,6 +28,7 @@
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=0
+
 #SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-%A.out"  
 #SBATCH --mail-user=ludo.a.levesque@gmail.com
 #SBATCH --mail-type=BEGIN
@@ -35,6 +36,9 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL
+
+
+
 
 
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer

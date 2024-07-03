@@ -37,11 +37,11 @@ If using this repository on Compute Canada, here's some helpful guidance:
   
     Copy and paste results (replacing symlinks with actual files):
     ```bash
-    rsync -rL user@graham.computecanada.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/projects/tpil_data/2024-05-27_tractoflow/
+    rsync -rL user@graham.alliancecan.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/projects/tpil_data/2024-05-27_tractoflow/
     ```
     Preserving symlinks (the links must point to accessible files)
     ```bash
-    rsync -rl user@graham.computecanada.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/scratch/data/2024-05-27_tractoflow/
+    rsync -rl user@graham.alliancecan.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/scratch/data/2024-05-27_tractoflow/
     ```
 
 - **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` in     the utils folder to install them in one step.
