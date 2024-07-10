@@ -37,7 +37,7 @@ TMP_SCRIPT=$(mktemp /tmp/slurm-tractometry_XXXXXX.sh)
 # Write the SLURM script to the temporary file
 cat <<EOT > $TMP_SCRIPT
 #!/bin/bash
-$_ressources
+$tractometry_ressources
 
 # Load necessary module
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
@@ -50,6 +50,8 @@ echo -e "Tractometry pipeline\n" > readme.txt
 echo -e "Date : $current_date\n" > readme.txt
 echo -e "[Command-Line]\n" > readme.txt
 echo $cmd > readme.txt
+
+$cmd
 
 EOT
 
