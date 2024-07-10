@@ -1,0 +1,1 @@
+nextflow run /home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractometry_flow/main.nf --input /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_tractometry -with-singularity /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif -resume --skip_projection_endpoints_metrics --use_provided_centroids

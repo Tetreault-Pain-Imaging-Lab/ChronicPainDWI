@@ -9,12 +9,12 @@
 #   --local_batch_size_gpu 0 : This prevents it from crahsing when not using gpus
 
 # This script submits a job with sbatch with the ressources specified in the my_variables.sh file. 
-# TO run this script use : bash tractoflow/run_tractoflow_cc.sh from the repository directory
+# To run this script use : bash tractoflow/run_tractoflow_cc.sh from the repository directory
 #  
 
 
 # Define the path to the configuration file
-CONFIG_FILE="my_variables.sh"
+CONFIG_FILE="config.sh"
 
 # Check if the configuration file exists
 if [[ ! -f "$CONFIG_FILE" ]]; then
@@ -40,10 +40,20 @@ my_input=$BIDS_DIR
 CURRENT_DATE=$(date +"%Y-%m-%d") # Current date in YYYY-MM-DD format
 my_output_dir="${OUTPUT_DIR}/${CURRENT_DATE}_tractoflow"
 
+# Check if the variable tractoflow_results_folder exists in the config file
+if grep -q "^tractoflow_outputs=" "$CONFIG_FILE"; then
+  # If the variable exists, update its value using sed
+  sed -i "s|^tractoflow_outputs=.*|tractoflow_outputs=\"$my_output_dir\"|" "$CONFIG_FILE"
+else
+  # If the variable does not exist, append it to the config file
+  echo "tractoflow_outputs=\"$my_output_dir\"" >> "$CONFIG_FILE"
+fi
 
-# export APPTAINERENV_MPLCONFIGDIR="${my_output_dir}/tmp"
-# mkdir $APPTAINERENV_MPLCONFIGDIR
+echo "Set tractoflow_outputs to $my_output_dir in $CONFIG_FILE, to be used in further steps. 
+Modify it directly in the config file if you change the name of the results folder manually"
 
+
+# Nextflow command that runs tractoflow with the specified paths and options
 nf_command="nextflow run $my_main_nf --bids $my_input -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" --dti_shells \"0 1000\" --fodf_shells \"0 1000 2000\" -profile bundling --run_gibbs_correction true --local_batch_size_gpu 0"
 
 
@@ -52,24 +62,12 @@ TMP_SCRIPT=$(mktemp /tmp/slurm-tractoflow_XXXXXX.sh)
 # Write the SLURM script to the temporary file
 cat <<EOT > $TMP_SCRIPT
 #!/bin/bash
-#SBATCH --job-name=run_tractoflow
-#SBATCH --time=$TIME_TF
-#SBATCH --nodes=$N_NODES_TF
-#SBATCH --cpus-per-task=$N_CPU_TF
-#SBATCH --mem=$MEM_TF
-#SBATCH --output=$SLURM_OUT_TF
-#SBATCH --mail-user=$MAIL
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-type=REQUEUE
-#SBATCH --mail-type=ALL
+$tractoflow_ressources
 
 # Load necessary module
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
 
 # Make sure the output directory exists
-
 if [ ! -d $my_output_dir ]; then
     mkdir -p $my_output_dir
 fi
@@ -83,6 +81,13 @@ $nf_command
 
 EOT
 
+# uncomment to print the script in the terminal
 # cat $TMP_SCRIPT
+
+# Submit the scipt as a slurm job
 sbatch $TMP_SCRIPT
+
+# Uncomment to automatically remove the temporary script 
+# rm /tmp/$TMP_SCRIPT
+
  

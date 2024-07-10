@@ -41,14 +41,54 @@ OUTPUT_DIR="/home/ludoal/scratch/ulaval_test/results"
 
 # General SBATCH directives 
 MAIL="ludo.a.levesque@gmail.com"  # optionnal, remove lines in the scripts if you don't want this option
-SLURM_OUT="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval"
+SLURM_OUT="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval" 
 
 # tractoflow ressources allocation (uesd in for the script /tractoflow/run_tractoflow_cc.sh)
-MEM_TF="100G"
-TIME_TF="90:00:00"
-N_NODES_TF="1"
-N_CPU_TF="20"
-SLURM_OUT_TF="$SLURM_OUT/tractoflow/slurm-tractoflow_%A.out"  
+tractoflow_ressources="
+#SBATCH --job-name=tractoflow
+#SBATCH --time=90:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=100G
+#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-tractoflow_%A.out\"   
+#SBATCH --mail-user=$MAIL
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE"
+
+
+# rbx ressources (used in the script ChronicPainDWI/bundleseg/run_rbx_cc.sh)
+rbx_ressources="#SBATCH --job-name=run_rbx
+#SBATCH --time=03:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=50G
+#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/rbx/slurm-rbx_%A.out\"   
+#SBATCH --mail-user=$MAIL
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE"
+
+# Tractometry ressource allocation 
+tractometry_ressources="#SBATCH --job-name=tractometry
+#SBATCH --time=1:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=50G
+#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractometry/slurm-%A.out\"
+#SBATCH --mail-user=ludo.a.levesque@gmail.com
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL"
+
+
 
 
 # Some variables might be added here by some scripts to speed up processing:
+tractoflow_outputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_tractoflow"
+rbx_inputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_rbx"
+tractometry_inputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_tractometry"

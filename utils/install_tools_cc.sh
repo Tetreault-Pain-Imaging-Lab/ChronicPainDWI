@@ -3,7 +3,7 @@
 # This script installs all the tools needed for the scripts in this repository
 # on Compute Canada. It installs the following tools in the specified directory.
 #
-# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh /home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools
+# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh 
 # 
 # What gets installed :
         # 1. scilus_1.6.0.sif
@@ -28,19 +28,7 @@
         # - Downloaded from https://zenodo.org/record/10103446 and extracted to the atlas directory.
 
 # Function to display the help message
-display_help() {
-    cat << EOF
-Usage: $0 [options] <directory>
 
-Installs Scilus lab's tools useful for DMRI in the specified directory.
-
-Options:
-  -h, --help          Display this help message and exit.
-  
-Arguments:
-  directory           The directory where the tools will be installed.
-EOF
-}
 
 # Function to check and create directory if it doesn't exist
 check_and_create_directory() {
@@ -53,11 +41,6 @@ check_and_create_directory() {
     fi
 }
 
-# Function to load modules
-load_modules() {
-    echo "Loading required modules..."
-    module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8 || { echo "Failed to load modules. Exiting..."; exit 1; }
-}
 
 # Function to download and move .sif file
 download_sif() {
@@ -102,21 +85,28 @@ setup_atlas() {
 
 # Main script execution
 main() {
-    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-        display_help
-        exit 0
+    
+    
+    # Define the path to the configuration file
+    CONFIG_FILE="config.sh"
+
+    # Check if the configuration file exists
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "Error: Configuration file not found."
+    echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
+    exit 1
     fi
 
-    if [ $# -ne 1 ]; then
-        echo "Error: Invalid number of arguments."
-        display_help
-        exit 1
-    fi
+    # Source the configuration file
+    source "$CONFIG_FILE"
 
-    local directory="$1"
+    local directory=$TOOLS_PATH
     check_and_create_directory "$directory"
-    load_modules
+    
+    module load apptainer
+
     download_sif "$directory"
+    
     clone_repo "https://github.com/scilus/tractoflow.git" "$directory/tractoflow"
     clone_repo "https://github.com/scilus/dmriqc_flow.git" "$directory/dmriqc_flow"
     clone_repo "https://github.com/scilus/rbx_flow.git" "$directory/rbx_flow"
