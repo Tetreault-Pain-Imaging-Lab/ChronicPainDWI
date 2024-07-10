@@ -4,10 +4,11 @@
 # This files contains variables for you to set manually to be used in the scripts of this repository
 
 # REPOS_DIR is the where you installed/cloned the ChronicPainDWI on your machine ChronicPainDWI
+REPOS_DIR="/home/ludoal/scratch/ChronicPainDWI"
 
 # The tools_path is going to contain all tools like the sclilus lab container and their nextflow tools.
 # We recommend you choose a path on your /user/projects directory to prevent it from being purged.
-# It will be first used in the script /utils/install_tools_cc.sh 
+# It will be first used in the script /utils/install_tools_cc.sh, then as a reference to find tools
 TOOLS_PATH="/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools"
 
  
@@ -16,10 +17,10 @@ TOOLS_PATH="/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools"
 #       -participants.tsv :
 #       -participants.json : necessary for BIDS format (see BIDS documentation for what it should contain)
 #       -dataset_description.json : necessary for BIDS format
-BIDS_DIR="/home/ludoal/scratch/ulaval_test/data"
+BIDS_DIR="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/data_raw_for_test"
 
 # The results will be stored in folders named after the pipeline that produced them under the OUTPUT_DIR
-OUTPUT_DIR="/home/ludoal/scratch/ulaval_test/results"
+OUTPUT_DIR="/home/ludoal/scratch/tpil_data/BIDS_longitudinal"
 
 
 ###############################         Ressource alloacation         ##########################################
@@ -39,18 +40,19 @@ OUTPUT_DIR="/home/ludoal/scratch/ulaval_test/results"
 #
 # To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
 
+#  Set the following variables to adjust ressources to your need. You will have to set them for every sbatch script (run_tractoflow_cc.sh, run_rbx_cc.sh and run_tractometry_cc.sh)
+
 # General SBATCH directives 
-MAIL="ludo.a.levesque@gmail.com"  # optionnal, remove lines in the scripts if you don't want this option
-SLURM_OUT="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval" 
+MAIL="ludo.a.levesque@gmail.com"  # optionnal, remove the `#SBATCH --mail` lines in the ressources variables if you don't want this option
+SLURM_OUT="/home/ludoal/scratch/ChronicPainDWI/outputs/tpil" 
 
 # tractoflow ressources allocation (uesd in for the script /tractoflow/run_tractoflow_cc.sh)
-tractoflow_ressources="
-#SBATCH --job-name=tractoflow
-#SBATCH --time=90:00:00
+tractoflow_ressources="#SBATCH --job-name=tractoflow
+#SBATCH --time=20:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
 #SBATCH --mem=100G
-#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-tractoflow_%A.out\"   
+#SBATCH --output=\"$SLURM_OUT/tractoflow/slurm-tractoflow_%A.out\"   
 #SBATCH --mail-user=$MAIL
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -60,11 +62,11 @@ tractoflow_ressources="
 
 # rbx ressources (used in the script ChronicPainDWI/bundleseg/run_rbx_cc.sh)
 rbx_ressources="#SBATCH --job-name=run_rbx
-#SBATCH --time=03:00:00
+#SBATCH --time=01:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
 #SBATCH --mem=50G
-#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/rbx/slurm-rbx_%A.out\"   
+#SBATCH --output=\"$SLURM_OUT/rbx/slurm-rbx_%A.out\"   
 #SBATCH --mail-user=$MAIL
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -77,8 +79,8 @@ tractometry_ressources="#SBATCH --job-name=tractometry
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
 #SBATCH --mem=50G
-#SBATCH --output=\"/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractometry/slurm-%A.out\"
-#SBATCH --mail-user=ludo.a.levesque@gmail.com
+#SBATCH --output=\"$SLURM_OUT/tractometry/slurm-%A.out\"
+#SBATCH --mail-user=$MAIL
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
@@ -88,3 +90,4 @@ tractometry_ressources="#SBATCH --job-name=tractometry
 
 
 # Some variables might be added here by some scripts to speed up processing:
+tractoflow_outputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-10_tractoflow"
