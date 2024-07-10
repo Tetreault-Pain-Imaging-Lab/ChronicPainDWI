@@ -8,50 +8,67 @@
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
 #   --local_batch_size_gpu 0 : This prevents it from crahsing when not using gpus
 
-# SLURM Parameters:
-#   --nodes: Number of nodes to allocate. Generally depends on the number of subjects and available cores per task.
-#            If you have more subjects than cores (e.g., 38 subjects and 32 cpus-per-task), consider requesting an additional node.
-#   --cpus-per-task: Number of CPUs to allocate per task. Choose based on your cluster's available configurations. 
-#                    For example, Beluga allows 32, 40, or 64 CPUs per task.
-#                    More information: https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
-#   --mem: Memory allocation per node. Setting this to 0 allocates all available memory on the node.
-#          Adjust based on expected memory usage.
-#   --time: Maximum job runtime. Adjust based on your pipeline's expected duration.
-#   --mail-user: Email address for job notifications.
-#   --mail-type: Conditions under which to send job status emails (BEGIN, END, FAIL, REQUEUE, ALL).
-#   --output: Path to the output log file for the SLURM job. %A is the job ID.
-#
-# To monitor tasks use portals like https://portail.narval.calculquebec.ca/ (for narval)
+# This script submits a job with sbatch with the ressources specified in the my_variables.sh file. 
+# TO run this script use : bash tractoflow/run_tractoflow_cc.sh from the repository directory
+#  
 
+
+# Define the path to the configuration file
+CONFIG_FILE="my_variables.sh"
+
+# Check if the configuration file exists
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  echo "Error: Configuration file not found."
+  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
+  exit 1
+fi
+
+# Source the configuration file
+source "$CONFIG_FILE"
+
+
+# Path where you installed the scilus container (see utils/instal_tools)
+my_singularity_img="${TOOLS_PATH}/containers/scilus_1.6.0.sif" # or .img
+
+# Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
+my_main_nf="${TOOLS_PATH}/tractoflow/main.nf"
+
+# Path to the BIDS formated data (containing all subjects and all sesions)
+my_input=$BIDS_DIR
+
+# Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
+CURRENT_DATE=$(date +"%Y-%m-%d") # Current date in YYYY-MM-DD format
+my_output_dir="${OUTPUT_DIR}/${CURRENT_DATE}_tractoflow"
+
+
+# export APPTAINERENV_MPLCONFIGDIR="${my_output_dir}/tmp"
+# mkdir $APPTAINERENV_MPLCONFIGDIR
+
+nf_command="nextflow run $my_main_nf --bids $my_input -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" --dti_shells \"0 1000\" --fodf_shells \"0 1000 2000\" -profile bundling --run_gibbs_correction true --local_batch_size_gpu 0"
+
+
+TMP_SCRIPT=$(mktemp /tmp/slurm-tractoflow_XXXXXX.sh)
+
+# Write the SLURM script to the temporary file
+cat <<EOT > $TMP_SCRIPT
+#!/bin/bash
 #SBATCH --job-name=run_tractoflow
-#SBATCH --time=50:00:00
-#SBATCH --nodes=1
-#SBATCH --cpus-per-task=32
-#SBATCH --mem=0
-
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/ulaval/tractoflow/slurm-%A.out"  
-#SBATCH --mail-user=ludo.a.levesque@gmail.com
+#SBATCH --time=$TIME_TF
+#SBATCH --nodes=$N_NODES_TF
+#SBATCH --cpus-per-task=$N_CPU_TF
+#SBATCH --mem=$MEM_TF
+#SBATCH --output=$SLURM_OUT_TF
+#SBATCH --mail-user=$MAIL
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL
 
-
-
-
-
+# Load necessary module
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
 
-# Path where you installed the scilus container (see utils/instal_tools)
-my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif' # or .img
-# Path to tractoflow's main.nf script where you installed tractoflow (see utils/instal_tools)
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/tractoflow/main.nf'
-# Path to the BIDS formated data (containing all subjects and all sesions)
-my_input='/home/ludoal/scratch/ulaval_test/data'
-# Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
-my_output_dir='/home/ludoal/scratch/ulaval_test/results/tractoflow/'
-
+# Make sure the output directory exists
 
 if [ ! -d $my_output_dir ]; then
     mkdir -p $my_output_dir
@@ -59,10 +76,13 @@ fi
 
 cd $my_output_dir
 
-export APPTAINERENV_MPLCONFIGDIR="${my_output_dir}/tmp"
-mkdir $APPTAINERENV_MPLCONFIGDIR
+# show the nextflow command line, then run it
+echo "$nf_command"
 
-nextflow run $my_main_nf --bids $my_input \
-    -with-singularity $my_singularity_img -resume -with-report "${my_output_dir}/report.html" \
-    --dti_shells "0 1000" --fodf_shells "0 1000 2000" -profile bundling --run_gibbs_correction true \
-    --local_batch_size_gpu 0
+$nf_command
+
+EOT
+
+# cat $TMP_SCRIPT
+sbatch $TMP_SCRIPT
+ 
