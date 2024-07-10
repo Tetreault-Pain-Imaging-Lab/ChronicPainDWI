@@ -87,8 +87,4 @@ tractometry_ressources="#SBATCH --job-name=tractometry
 
 
 
-
 # Some variables might be added here by some scripts to speed up processing:
-tractoflow_outputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_tractoflow"
-rbx_inputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_rbx"
-tractometry_inputs="/home/ludoal/scratch/ulaval_test/results/2024-07-10_tractometry"
