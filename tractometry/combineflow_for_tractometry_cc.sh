@@ -44,4 +44,4 @@ cmd="$combineflow_path \
 echo "Executing command: $cmd"
 
 # Execute the command
-# eval "$cmd"
+eval "$cmd"

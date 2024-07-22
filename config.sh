@@ -51,7 +51,7 @@ tractoflow_ressources="#SBATCH --job-name=tractoflow
 #SBATCH --time=20:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
-#SBATCH --mem=100G
+#SBATCH --mem=60G
 #SBATCH --output=\"$SLURM_OUT/tractoflow/slurm-tractoflow_%A.out\"   
 #SBATCH --mail-user=$MAIL
 #SBATCH --mail-type=BEGIN
@@ -74,7 +74,7 @@ rbx_ressources="#SBATCH --job-name=run_rbx
 #SBATCH --mail-type=REQUEUE"
 
 # Tractometry ressource allocation 
-tractometry_ressources="#SBATCH --job-name=tractometry
+tractometry_ressources="#SBATCH --job-name=tractometry_50
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
@@ -91,3 +91,5 @@ tractometry_ressources="#SBATCH --job-name=tractometry
 
 # Some variables might be added here by some scripts to speed up processing:
 tractoflow_outputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-10_tractoflow"
+rbx_inputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-11_rbx"
+tractometry_inputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-16_tractometry"
