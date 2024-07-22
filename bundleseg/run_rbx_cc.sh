@@ -3,35 +3,29 @@
 # This would run RecobundleX with the following parameters:
 #   - Population average atlas for RecobundlesX. DOI:  10.5281/zenodo.10103446
 
-#SBATCH --job-name=rbx
-#SBATCH --nodes=1              # --> Generally depends on your nb of subjects.
-                               # See the comment for the cpus-per-task. One general rule could be
-                               # that if you have more subjects than cores/cpus (ex, if you process 38
-                               # subjects on 32 cpus-per-task), you could ask for one more node.
-#SBATCH --cpus-per-task=32     # --> You can see here the choices. For beluga, you can choose 32, 40 or 64.
-                               # https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
-#SBATCH --mem=0                # --> 0 means you take all the memory of the node. If you think you will need
-                               # all the node, you can keep 0.
-#SBATCH --time=1:00:00
+# This script submits a job with sbatch with the ressources specified in the config.sh file. 
+# To run this script use : bash bundleseg/run_rbx_cc.sh from the repository directory
+#  
 
 
-#SBATCH --mail-user=ludo.a.levesque@gmail.com
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-type=REQUEUE
-#SBATCH --mail-type=ALL
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/rbx/slurm-%A.out"
+# Define the path to the configuration file
+CONFIG_FILE="config.sh"
+
+# Check if the configuration file exists
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  echo "Error: Configuration file not found."
+  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
+  exit 1
+fi
+
+# Source the configuration file
+source "$CONFIG_FILE"
 
 
-my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/containers/scilus_1.6.0.sif' # or .img
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/rbx_flow/main.nf'
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_rbx'
-my_atlas_dir='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/atlas_dir'
-
-module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
-
-cd $my_input
+my_singularity_img="${TOOLS_PATH}/containers/scilus_1.6.0.sif" # or .img
+my_main_nf="${TOOLS_PATH}/rbx_flow/main.nf"
+my_input=$rbx_inputs
+my_atlas_dir="${TOOLS_PATH}/atlas_dir"
 
 cmd="NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
     --input $my_input \
@@ -40,11 +34,38 @@ cmd="NXF_DEFAULT_DSL=1 nextflow run $my_main_nf \
     --atlas_directory $my_atlas_dir \
     -resume"
 
-eval $cmd
 
 
+TMP_SCRIPT=$(mktemp /tmp/slurm-rbx_XXXXXX.sh)
+
+# Write the SLURM script to the temporary file
+cat <<EOT > $TMP_SCRIPT
+#!/bin/bash
+$rbx_ressources
+
+
+# Load necessary module
+module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
+
+cd $my_input
+
+# Create a readme.txt to keep track of options and date that this was ran
 current_date=$(date)
 echo -e "Rbx pipeline\n" > readme.txt
 echo -e "Date : $current_date\n" > readme.txt
 echo -e "[Command-Line]\n" > readme.txt
 echo $cmd > readme.txt
+
+$cmd
+
+
+EOT
+
+# uncomment to print the script in the terminal
+# cat $TMP_SCRIPT
+
+# Submit the scipt as a slurm job
+sbatch $TMP_SCRIPT
+
+# Uncomment to automatically remove the temporary script 
+# rm /tmp/$TMP_SCRIPT
