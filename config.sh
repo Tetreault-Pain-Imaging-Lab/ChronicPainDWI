@@ -88,6 +88,13 @@ tractometry_ressources="#SBATCH --job-name=tractometry_50
 #SBATCH --mail-type=ALL"
 
 
+# Quality Control script ressources
+QC_ressources="#SBATCH --nodes=1              
+#SBATCH --cpus-per-task=10    
+#SBATCH --mem=20G             
+#SBATCH --time=2:00:00         
+#SBATCH --output=$SLURM_OUT/qc/slurm-%A_rbx.out"
+
 
 # Some variables might be added here by some scripts to speed up processing:
 tractoflow_outputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-10_tractoflow"

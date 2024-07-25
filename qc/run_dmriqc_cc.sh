@@ -15,7 +15,7 @@
 
 
 # To run this script cd into the repo's directory and use :
-#  bash /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh "profile" "your_config".sh
+#  bash /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh "profile" "your_config.sh"
 
 
 # Define the path to the configuration file
@@ -97,7 +97,8 @@ case "$my_profile" in
         ;;
 
 esac
- 
+
+echo -e "Running profile : ${my_profile}\n on ${my_input} " 
 
 # Create the command for the Nextflow pipeline using the defined parameters
 cmd="nextflow run $my_main_nf \
