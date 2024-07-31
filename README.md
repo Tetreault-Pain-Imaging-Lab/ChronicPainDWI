@@ -64,7 +64,7 @@ Portals for the other clusters might be available now.
          
          - **--output**: Path to the output log file for the SLURM job. `%A` is the job ID.
 
-     For more info [](https://docs.alliancecan.ca/wiki/Running_jobs)
+     For more info on how to run jobs on Compute Canada see their [wiki page](https://docs.alliancecan.ca/wiki/Running_jobs)
 
 
 ## Config file
@@ -105,11 +105,5 @@ The second step is bundle segmentation. In the [bundleseg](https://github.com/Te
 
 The third step is tractometry which is done using another scilus lab tool : [tractometry_flow](https://github.com/scilus/tractometry_flow) In order to run tractometry on a bundle it needs to have a sufficient number of streamlines. If after running rbx you find that some bundles are too small (the AC and PC bundles are in our case) you can remove them from your data before running tractometry_flow to prevent it from crashing.
 
-### Statisical analysis ?
 
-...
-
-
-
-...
 
