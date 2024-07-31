@@ -40,25 +40,48 @@ To use this repository on Compute Canada, here's some helpful guidance:
 
 - **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` in     the utils folder to install them in one step.
 
-- **Ressources allocation**:When submitting jobs on a cluster, you have to allocate ressources. To monitor jobs and see what ressources it uses, Narval and Beluga have a portal that helps you visualise ressources usage for tasks :[Narval](https://portail.narval.calculquebec.ca), [Beluga](https://portail.beluga.calculquebec.ca).
+- **Ressources allocation**:When submitting jobs on a cluster, you have to allocate ressources trough the SLURMS parameters. To monitor jobs and see what ressources it uses, Narval and Beluga have a portal that helps you visualise ressources usage for tasks :[Narval](https://portail.narval.calculquebec.ca), [Beluga](https://portail.beluga.calculquebec.ca).
 Portals for the other clusters might be available now.
+
+         ### SLURM Parameters Info
+         
+         - **--nodes**: Number of nodes to allocate. Generally depends on the number of subjects and available cores per task.  
+           If you have more subjects than cores (e.g., 38 subjects and 32 cpus-per-task), consider requesting an additional node.
+         
+         - **--cpus-per-task**: Number of CPUs to allocate per task. Choose based on your cluster's available configurations.  
+           For example, Beluga allows 32, 40, or 64 CPUs per task.  
+           More information: [Beluga Node Characteristics](https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics)
+         
+         - **--mem**: Memory allocation per node. Setting this to 0 allocates all available memory on the node.  
+           Adjust based on expected memory usage.
+         
+         - **--time**: Maximum job runtime. Adjust based on your pipeline's expected duration.
+         
+         - **--mail-user**: Email address for job notifications.
+         
+         - **--mail-type**: Conditions under which to send job status emails (BEGIN, END, FAIL, REQUEUE, ALL).
+         
+         - **--output**: Path to the output log file for the SLURM job. `%A` is the job ID.
+
+     For more info [](https://docs.alliancecan.ca/wiki/Running_jobs)
+
 
 ## Config file
 To run the anlysis on a new dataset, you need to create your config file. In this file you will set all the variables that the pipelines need to run on a new dataset. Use the `config_ex.sh` file as a template. Here is all the variables you need to set in this file :
 
 | **Variable**           | **Description**                                                                                                                               |
 |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `REPOS_DIR`            | Path where the ChronicPainDWI repository is installed/cloned.                                                                                 |
+| `REPOS_DIR`            | Path where the ChronicPainDWI repository is installed/cloned on your Compute Canada account.                                                  |
 | `TOOLS_PATH`           | Directory containing tools like the sclilus lab container and nextflow tools. Recommended to place in `/user/projects` to prevent purging.   |
 | `BIDS_DIR`             | Path to the raw BIDS formatted dataset. Contains subject folders and essential files like `participants.tsv`, `participants.json`, and `dataset_description.json`. |
-| `OUTPUT_DIR`           | Directory where results are stored, organized by the pipeline that generated them.                                                           |
+| `OUTPUT_DIR`           | Directory where results are stored, organized by the pipeline that generated them. (i.e. tractoflow outputs will be placed in `$OUTPUT_DIR/tractoflow`)                                                         |
 | `MAIL`                 | Email address for job notifications. Optional; remove `#SBATCH --mail` lines if not needed.                                                  |
 | `SLURM_OUT`            | Path for storing SLURM job output logs.                                                                                                       |
 | `tractoflow_ressources`| SLURM parameters for the `run_tractoflow_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
 | `rbx_ressources`       | SLURM parameters for the `run_rbx_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
 | `tractometry_ressources`| SLURM parameters for the `run_tractometry_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
-| `nb_points`            | Number of points used in `run_tractometry_cc.sh`.                                                                                              |
-| `QC_ressources`        | SLURM parameters for the Quality Control script, including nodes, CPUs per task, memory, time, and output log path.                            |
+| `nb_points`            | (optional) Number of points used in `run_tractometry_cc.sh`. If this variables is empty, 20 points will be used by default                     |
+| `QC_ressources`        | SLURM parameters for the `run_dmriqc_cc.sh` script, including nodes, CPUs per task, memory, time, and output log path.                            |
 
 
 
