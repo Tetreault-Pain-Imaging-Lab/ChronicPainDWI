@@ -91,7 +91,7 @@ main() {
     
     
     # Define the path to the configuration file
-    DEFAULT_CONFIG_FILE="config.sh"
+    DEFAULT_CONFIG_FILE="config_ex.sh"
 
     # Check if an argument is provided
     if [ "$#" -eq 1 ]; then

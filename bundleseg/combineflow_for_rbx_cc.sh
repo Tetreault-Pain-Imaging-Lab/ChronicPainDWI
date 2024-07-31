@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# This script creates the folder containing all the necessary files with the right data sctructure in order to run for rbx
+
 # To run this script cd into the repo's directory and use :
 #  bash /bundleseg/combineflow_for_rbx_cc.sh your_config.sh
 
 # Define the path to the configuration file
-DEFAULT_CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
 # Check if an argument is provided
 if [ "$#" -eq 1 ]; then

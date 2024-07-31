@@ -16,7 +16,7 @@
 
 
 # Define the path to the configuration file
-DEFAULT_CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
 # Check if an argument is provided
 if [ "$#" -eq 1 ]; then
@@ -45,7 +45,7 @@ my_main_nf="${TOOLS_PATH}/tractoflow/main.nf"
 # Path to the BIDS formated data (containing all subjects and all sesions)
 my_input=$BIDS_DIR
 
-# Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
+# Path of the tractoflow output. This will be saved in the config file as tractoflow_outputs
 my_output_dir="${OUTPUT_DIR}/tractoflow"
 
 # Check if the variable tractoflow_results_folder exists in the config file
@@ -67,7 +67,7 @@ nf_command="nextflow run $my_main_nf --bids $my_input -with-singularity $my_sing
 
 TMP_SCRIPT=$(mktemp /tmp/slurm-tractoflow_XXXXXX.sh)
 
-# Write the SLURM script to the temporary file
+# Write the SLURM script to a temporary file
 cat <<EOT > $TMP_SCRIPT
 #!/bin/bash
 $tractoflow_ressources
@@ -95,7 +95,6 @@ EOT
 # Submit the scipt as a slurm job
 sbatch $TMP_SCRIPT
 
-# Uncomment to automatically remove the temporary script 
-# rm /tmp/$TMP_SCRIPT
+
 
  

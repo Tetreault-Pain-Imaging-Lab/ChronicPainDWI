@@ -19,9 +19,9 @@
 
 
 # Define the path to the configuration file
-DEFAULT_CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
-# Check if an config file argument is provided
+# Check if a config file argument is provided
 if [ "$#" -eq 2 ]; then
     CONFIG_FILE="$2"
 else
