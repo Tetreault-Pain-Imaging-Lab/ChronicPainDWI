@@ -2,19 +2,13 @@
 
 ## Overview
 
-**ChronicPainDWI** aims to leverage diffusion MRI to enhance our understanding of chronic pain mechanisms and improve treatment outcomes. This project focuses on the analysis and documentation of a unique dataset involving chronic low back pain patients.
+**ChronicPainDWI** aims to facilitate the reproduction of the Diffusion MRI processing and analysis we did in our lab, but with different datasets. It contains code to easily run the same pipelines we normally use and with the same options. 
 
-## Dataset
 
-The dataset includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
+The dataset we originally used to develop this repossitory includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
-All participants were scanned using a 3.0 T MRI scanner (Philips Ingenia, Siemens), across various contrasts including T1-weighted, BOLD, TOF, SWI, and diffusion-weighted imaging.
 
 ## Repository Usage
-
-This repository serves two main purposes:
-1. **Document Analysis**: It contains scripts for the analysis of the DMRI data, detailing parameters used at each processing and analysis step.
-2. **Facilitate Reproduction**: Enables reproduction of our results or similar analyses on new data.
    
 ### Forking the Repository for personal use
 If you would like to use and customize this repository for your own purposes, we recommend forking it. Forking allows you to have your own version of this project that you can modify and maintain independently of the original codebase. Here’s how you can fork this repository:
@@ -27,13 +21,13 @@ Clone Your Fork: After forking, clone the forked repository to your local machin
 git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 ```
 
+You could also simply clone this repository on your Compute Canada account and start using it directly, which is fine if you want to customize it but you don't want multiple versions of this repository
 
 ### Running on Compute Canada
 
-If using this repository on Compute Canada, here's some helpful guidance:
-- **Workspace Organization**: Use the `utils` folder for scripts to organize your workspace and install necessary tools.
+To use this repository on Compute Canada, here's some helpful guidance:
 - **Data Management**: Place your data in the scratch directory, run scripts there, and transfer results elsewhere only after processing.
-    (When moving results folder be carefull of symlinks. For example, the results folder of tractoflow contains symlinks that points to files in the work folder. To copy        and paste results from one directory to another you can use the rsync command.
+    (When moving results folder be carefull of symlinks. For example, the results folder of tractoflow contains symlinks that points to files in the work folder. To copy        and paste results from one directory to another you can use the rsync command.)
   
     Copy and paste results (replacing symlinks with actual files):
     ```bash
@@ -48,6 +42,26 @@ If using this repository on Compute Canada, here's some helpful guidance:
 
 - **Ressources allocation**:When submitting jobs on a cluster, you have to allocate ressources. To monitor jobs and see what ressources it uses, Narval and Beluga have a portal that helps you visualise ressources usage for tasks :[Narval](https://portail.narval.calculquebec.ca), [Beluga](https://portail.beluga.calculquebec.ca).
 Portals for the other clusters might be available now.
+
+## Config file
+To run the anlysis on a new dataset, you need to create your config file. In this file you will set all the variables that the pipelines need to run on a new dataset. Use the `config_ex.sh` file as a template. Here is all the variables you need to set in this file :
+
+| **Variable**           | **Description**                                                                                                                               |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `REPOS_DIR`            | Path where the ChronicPainDWI repository is installed/cloned.                                                                                 |
+| `TOOLS_PATH`           | Directory containing tools like the sclilus lab container and nextflow tools. Recommended to place in `/user/projects` to prevent purging.   |
+| `BIDS_DIR`             | Path to the raw BIDS formatted dataset. Contains subject folders and essential files like `participants.tsv`, `participants.json`, and `dataset_description.json`. |
+| `OUTPUT_DIR`           | Directory where results are stored, organized by the pipeline that generated them.                                                           |
+| `MAIL`                 | Email address for job notifications. Optional; remove `#SBATCH --mail` lines if not needed.                                                  |
+| `SLURM_OUT`            | Path for storing SLURM job output logs.                                                                                                       |
+| `tractoflow_ressources`| SLURM parameters for the `run_tractoflow_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
+| `rbx_ressources`       | SLURM parameters for the `run_rbx_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
+| `tractometry_ressources`| SLURM parameters for the `run_tractometry_cc.sh` script, including job name, time, nodes, CPUs per task, memory, output log path, and email notifications. |
+| `nb_points`            | Number of points used in `run_tractometry_cc.sh`.                                                                                              |
+| `QC_ressources`        | SLURM parameters for the Quality Control script, including nodes, CPUs per task, memory, time, and output log path.                            |
+
+
+
 
 
 ## Analysis Workflow
