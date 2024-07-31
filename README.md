@@ -1,5 +1,4 @@
 #  <img src="assets/logo.png" alt="logo" width="50"/>   ChronicPainDWI                
-## Overview
 
 **ChronicPainDWI** aims to facilitate the reproduction of the Diffusion MRI processing and analysis we did in our lab, but with different datasets. It contains code to easily run the same pipelines we normally use and with the same options. 
 
