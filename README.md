@@ -1,5 +1,4 @@
-# ChronicPainDWI 
-![](assets/logo.)
+#  <img src="assets/logo.png" alt="logo" width="50"/>   ChronicPainDWI                
 ## Overview
 
 **ChronicPainDWI** aims to facilitate the reproduction of the Diffusion MRI processing and analysis we did in our lab, but with different datasets. It contains code to easily run the same pipelines we normally use and with the same options. 
@@ -7,7 +6,7 @@
 The dataset we originally used to develop this repository includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
 
-## Repository Usage
+## Repository Usage                   <img src="assets/diag_setup.png" alt="diagram1" width="200"/>   
    
 ### Forking the Repository for personal use
 If you would like to use and customize this repository for your own purposes, we recommend forking it. Forking allows you to have your own version of this project that you can modify and maintain independently of the original codebase. Here’s how you can fork this repository:
