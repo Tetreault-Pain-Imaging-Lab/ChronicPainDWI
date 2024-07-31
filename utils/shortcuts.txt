@@ -1,7 +1,0 @@
-
-# running tree_for_tractometry_cc
-
-bash tractometry/tree_for_tractometry_cc.sh \
-    -t /home/ludoal/scratch/tpil_data/BIDS_longitudinal/tractoflow_results \
-    -r /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-24_rbx \
-    -o /home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractometry
