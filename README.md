@@ -38,7 +38,7 @@ To use this repository on Compute Canada, here's some helpful guidance:
     rsync -rl user@graham.alliancecan.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/scratch/data/2024-05-27_tractoflow/
     ```
 
-- **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` in     the utils folder to install them in one step.
+- **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` to install them in one step.
 
 - **Ressources allocation**:When submitting jobs on a cluster, you have to allocate ressources trough the SLURMS parameters. To monitor jobs and see what ressources it uses, Narval and Beluga have a portal that helps you visualise ressources usage for tasks :[Narval](https://portail.narval.calculquebec.ca), [Beluga](https://portail.beluga.calculquebec.ca).
 Portals for the other clusters might be available now.
