@@ -4,8 +4,7 @@
 
 **ChronicPainDWI** aims to facilitate the reproduction of the Diffusion MRI processing and analysis we did in our lab, but with different datasets. It contains code to easily run the same pipelines we normally use and with the same options. 
 
-
-The dataset we originally used to develop this repossitory includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
+The dataset we originally used to develop this repository includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
 
 ## Repository Usage
@@ -101,7 +100,7 @@ The second step is bundle segmentation. In the [bundleseg](https://github.com/Te
 
 ### Tractometry 
 
-The third step is tractometry which is done using another scilus lab tool : [tractometry_flow](https://github.com/scilus/tractometry_flow) 
+The third step is tractometry which is done using another scilus lab tool : [tractometry_flow](https://github.com/scilus/tractometry_flow) In order to run tractometry on a bundle it needs to have a sufficient number of streamlines. If after running rbx you find that some bundles are too small (the AC and PC bundles are in our case) you can remove them from your data before running tractometry_flow to prevent it from crashing.
 
 ### Statisical analysis ?
 
