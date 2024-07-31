@@ -6,7 +6,10 @@
 The dataset we originally used to develop this repository includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
 
+
 ## Repository Usage             
+
+<img src="assets/diag_setup.png" alt="diagram1" width="500"/>   
    
 ### Forking the Repository for personal use
 If you would like to use and customize this repository for your own purposes, we recommend forking it. Forking allows you to have your own version of this project that you can modify and maintain independently of the original codebase. Here’s how you can fork this repository:
@@ -84,8 +87,9 @@ To run the anlysis on a new dataset, you need to create your config file. In thi
 
 
 
-
 ## Analysis Workflow
+
+<img src="assets/diag_analysis.png" alt="diagram2" width="500"/>   
 
 ### Preprocessing and tractogram generation
 
