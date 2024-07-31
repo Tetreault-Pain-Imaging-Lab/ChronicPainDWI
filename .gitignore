@@ -17,3 +17,5 @@ tractoflow/run_tractoflow_gpu.sh
 nilearn*
 temp.sh
 config_test.sh
+results_QC
+config_issue.sh

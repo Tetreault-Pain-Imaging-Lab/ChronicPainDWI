@@ -13,49 +13,41 @@
 
 #     rbx_qc                              Create QC reports for your rbx-flow results.
 
-#     disconets_qc                       Create QC reports for your disconets_flow results.
 
-#     cbrain                              When this profile is used, Nextflow will copy all the output files in publishDir and not use symlinks.
-#                                         cbrain profile should be used as a second profile (e.g -profile input_qc,cbrain).
-
-# It uses SLURM for job scheduling and Nextflow for workflow execution.
-# Ensure you adjust SLURM parameters based on your requirements and cluster specifications 
-# and change the path variables for your dataset
-# 
-# SLURM Parameters:
-#   --nodes: Number of nodes to allocate. Generally depends on the number of subjects and available cores per task.
-#            If you have more subjects than cores (e.g., 38 subjects and 32 cpus-per-task), consider requesting an additional node.
-#   --cpus-per-task: Number of CPUs to allocate per task. Choose based on your cluster's available configurations. 
-#                    For example, Beluga allows 32, 40, or 64 CPUs per task.
-#                    More information: https://docs.computecanada.ca/wiki/B%C3%A9luga/en#Node_Characteristics
-#   --mem: Memory allocation per node. Setting this to 0 allocates all available memory on the node.
-#          Adjust based on expected memory usage.
-#   --time: Maximum job runtime. Adjust based on your pipeline's expected duration.
-#   --mail-user: Email address for job notifications.
-#   --mail-type: Conditions under which to send job status emails (BEGIN, END, FAIL, REQUEUE, ALL).
-#   --output: Path to the output log file for the SLURM job.
-
-#SBATCH --nodes=1              
-#SBATCH --cpus-per-task=10     
-#SBATCH --mem=20G             
-#SBATCH --time=1:00:00         
-#SBATCH --output="/home/ludoal/scratch/ChronicPainDWI/outputs/qc/slurm-%A.out" 
-
-# Example usage: sbatch /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh tractoflow_qc_all
+# To run this script cd into the repo's directory and use :
+#  bash /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh "profile" "your_config.sh"
 
 
-# Load necessary modules
-module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer/1.1.8
+# Define the path to the configuration file
+DEFAULT_CONFIG_FILE="config_ex.sh"
+
+# Check if a config file argument is provided
+if [ "$#" -eq 2 ]; then
+    CONFIG_FILE="$2"
+else
+    CONFIG_FILE="$DEFAULT_CONFIG_FILE"
+fi
+
+# Check if the config file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Source the config file
+    source "$CONFIG_FILE"
+    echo "Using config file: $CONFIG_FILE"
+else
+    echo "Error: Config file '$CONFIG_FILE' not found."
+    exit 1
+fi
+
 
 # Define paths for the Singularity image, Nextflow script, input data, and output directory
-my_singularity_img='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/containers/scilus_1.6.0.sif'   
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_tpil/tools/dmriqc_flow/main.nf'             # dmriqc_flow script path
-my_input='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-27_tractoflow/results'               # This needs to match profile
-my_output_dir='/home/ludoal/scratch/tpil_data/BIDS_longitudinal/qc_tractoflow'
+my_singularity_img="${TOOLS_PATH}/containers/scilus_1.6.0.sif" # or .img
+my_main_nf="${TOOLS_PATH}/dmriqc_flow/main.nf"
 my_profile="$1"
+my_output_dir="${OUTPUT_DIR}/${my_profile}"
+
 
 # Valid profiles
-valid_profiles=("input_qc" "tractoflow_qc_light" "tractoflow_qc_all" "rbx_qc" "disconets_qc" "cbrain")
+valid_profiles=("input_qc" "tractoflow_qc_light" "tractoflow_qc_all" "rbx_qc" )
 
 # Function to check if the profile is valid
 is_valid_profile() {
@@ -82,10 +74,64 @@ if ! is_valid_profile "$my_profile"; then
     exit 1
 fi
 
-# Run the Nextflow pipeline using the defined parameters
-nextflow run $my_main_nf \
+# Get input directory
+case "$my_profile" in 
+    "input_qc")
+        my_input="$BIDS_DIR"
+        ;;
+
+    "tractoflow_qc_light" | "tractoflow_qc_all" )
+        if test -z "${tractoflow_outputs+set}"; then
+            my_input="${OUTPUT_DIR}/tractoflow/results"
+        else
+            my_input="$tractoflow_outputs"
+        fi
+        ;;
+
+    "rbx_qc")
+        if test -z "${rbx_inputs+set}"; then
+            my_input="${OUTPUT_DIR}/rbx/results_rbx"
+        else
+            my_input="$rbx_inputs/results_rbx"
+        fi
+        ;;
+
+esac
+
+echo -e "Running profile : ${my_profile}\n on ${my_input} " 
+
+# Create the command for the Nextflow pipeline using the defined parameters
+cmd="nextflow run $my_main_nf \
     -profile $my_profile \
     -with-singularity $my_singularity_img \
     --input $my_input \
     --output_dir $my_output_dir \
-    -resume
+    -resume"
+
+    
+TMP_SCRIPT=$(mktemp /tmp/slurm-qc_XXXXXX.sh)
+
+# Write the SLURM script to the temporary file
+cat <<EOT > $TMP_SCRIPT
+#!/bin/bash
+$QC_ressources
+
+# Load necessary module
+module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
+
+echo -e "Running profile : ${my_profile}\n on ${my_input} " 
+
+if [ ! -d $my_output_dir ]; then
+    mkdir -p $my_output_dir
+fi
+cd $my_output_dir
+
+$cmd
+
+EOT
+
+# uncomment to print the script in the terminal
+# cat $TMP_SCRIPT
+
+# Submit the scipt as a slurm job
+sbatch $TMP_SCRIPT

@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # This script installs all the tools needed for the scripts in this repository
-# on Compute Canada. It installs the following tools in the specified directory.
+# on Compute Canada. It installs the following tools in the directories 
+# specified in the config file you provide as an argument.
 #
-# Example usage: bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh 
+
+# To run this script cd into the repo's directory and use :
+# bash /home/ludoal/scratch/ChronicPainDWI/utils/install_tools_cc.sh your_config.sh
 # 
 # What gets installed :
         # 1. scilus_1.6.0.sif
@@ -88,17 +91,24 @@ main() {
     
     
     # Define the path to the configuration file
-    CONFIG_FILE="config.sh"
+    DEFAULT_CONFIG_FILE="config_ex.sh"
 
-    # Check if the configuration file exists
-    if [[ ! -f "$CONFIG_FILE" ]]; then
-    echo "Error: Configuration file not found."
-    echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
-    exit 1
+    # Check if an argument is provided
+    if [ "$#" -eq 1 ]; then
+        CONFIG_FILE="$1"
+    else
+        CONFIG_FILE="$DEFAULT_CONFIG_FILE"
     fi
 
-    # Source the configuration file
-    source "$CONFIG_FILE"
+    # Check if the config file exists
+    if [ -f "$CONFIG_FILE" ]; then
+        # Source the config file
+        source "$CONFIG_FILE"
+        echo "Using config file: $CONFIG_FILE"
+    else
+        echo "Error: Config file '$CONFIG_FILE' not found."
+        exit 1
+    fi
 
     local directory=$TOOLS_PATH
     check_and_create_directory "$directory"

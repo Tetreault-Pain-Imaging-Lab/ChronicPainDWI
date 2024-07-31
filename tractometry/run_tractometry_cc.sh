@@ -1,34 +1,46 @@
 #!/bin/bash
 
 # This script submits a job with sbatch with the ressources specified in the config.sh file. 
-# To run this script use : bash tractometry/run_tractometry_cc.sh from the repository directory
-#  
+# To run this script cd into the repo's directory and use : bash tractometry/run_tractometry_cc.sh your_config.sh
+# ex :  bash tractometry/run_tractometry_cc.sh config_test.sh
 
 # Define the path to the configuration file
-CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
-# Check if the configuration file exists
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Error: Configuration file not found."
-  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
-  exit 1
+# Check if an argument is provided
+if [ "$#" -eq 1 ]; then
+    CONFIG_FILE="$1"
+else
+    CONFIG_FILE="$DEFAULT_CONFIG_FILE"
 fi
 
-# Source the configuration file
-source "$CONFIG_FILE"
+# Check if the config file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Source the config file
+    source "$CONFIG_FILE"
+    echo "Using config file: $CONFIG_FILE"
+else
+    echo "Error: Config file '$CONFIG_FILE' not found."
+    exit 1
+fi
+
 
 my_singularity_img="${TOOLS_PATH}/containers/scilus_1.6.0.sif" # or .img
 my_main_nf="${TOOLS_PATH}/tractometry_flow/main.nf"
-my_main_nf='/home/ludoal/projects/def-pascalt-ab/ludoal/dev_scil/tractometry_flow/main.nf'
-my_input="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-05-28_tractometry"
+my_input=$tractometry_inputs
+current_date=$(date +"%Y-%m-%d")
 
-
+if [ ! -n "${nb_points}" ]; then
+    nb_points='20' # 20 is the default nb of points that tractometry segments the tracks
+fi
 
 cmd="nextflow run $my_main_nf \
     --input $my_input \
     -with-singularity $my_singularity_img -resume \
     --skip_projection_endpoints_metrics \
-    --use_provided_centroids"
+    --use_provided_centroids \
+    --skip_projection_endpoints_metrics \
+    --nb_points $nb_points"
 
 
 
@@ -45,21 +57,19 @@ module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
 cd $my_input
 
 # Create a readme.txt to keep track of options and date that this was ran
-current_date=$(date)
 echo -e "Tractometry pipeline\n" > readme.txt
 echo -e "Date : $current_date\n" > readme.txt
 echo -e "[Command-Line]\n" > readme.txt
-echo $cmd > readme.txt
+echo "$cmd" > readme.txt
+
 
 $cmd
 
 EOT
 
 # uncomment to print the script in the terminal
-cat $TMP_SCRIPT
+# cat $TMP_SCRIPT
 
 # Submit the scipt as a slurm job
-# sbatch $TMP_SCRIPT
+sbatch $TMP_SCRIPT
 
-# Uncomment to automatically remove the temporary script 
-# rm /tmp/$TMP_SCRIPT

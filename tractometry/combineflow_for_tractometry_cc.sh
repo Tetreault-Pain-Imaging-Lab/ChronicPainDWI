@@ -1,24 +1,33 @@
 #!/bin/bash
 
+# To run this script cd into the repo's directory and use :
+#  bash tractometry/combineflow_for_tractometry_cc.sh your_config.sh
+
 
 # Define the path to the configuration file
-CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
-# Check if the configuration file exists
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Error: Configuration file not found."
-  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
-  exit 1
+# Check if an argument is provided
+if [ "$#" -eq 1 ]; then
+    CONFIG_FILE="$1"
+else
+    CONFIG_FILE="$DEFAULT_CONFIG_FILE"
 fi
 
-# Source the configuration file
-source "$CONFIG_FILE"
+# Check if the config file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Source the config file
+    source "$CONFIG_FILE"
+    echo "Using config file: $CONFIG_FILE"
+else
+    echo "Error: Config file '$CONFIG_FILE' not found."
+    exit 1
+fi
 
 tractoflow_results_folder="$tractoflow_outputs/results"
 rbx_results_folder="$rbx_inputs/results_rbx"
 
-CURRENT_DATE=$(date +"%Y-%m-%d") # Current date in YYYY-MM-DD format
-tractometry_inputs="${OUTPUT_DIR}/${CURRENT_DATE}_tractometry"
+tractometry_inputs="${OUTPUT_DIR}/tractometry"
 combineflow_path="$TOOLS_PATH/combine_flows/tree_for_tractometry.sh"  # Path to the combine_flows script specific for rbx_flow
 
 # Check if the variable tractometry_inputs exists in the config file

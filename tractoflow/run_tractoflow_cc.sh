@@ -8,23 +8,32 @@
 #   - profile: bundling, bundling profile will set the seeding strategy to WM as opposed to interface seeding that is usually used for connectomics
 #   --local_batch_size_gpu 0 : This prevents it from crahsing when not using gpus
 
-# This script submits a job with sbatch with the ressources specified in the my_variables.sh file. 
-# To run this script use : bash tractoflow/run_tractoflow_cc.sh from the repository directory
-#  
+# This script submits a job with sbatch with the ressources specified in the config file. 
+
+# To run this script cd into the repo's directory and use :
+#  bash tractoflow/run_tractoflow_cc.sh your_config.sh
+  
 
 
 # Define the path to the configuration file
-CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
-# Check if the configuration file exists
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Error: Configuration file not found."
-  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
-  exit 1
+# Check if an argument is provided
+if [ "$#" -eq 1 ]; then
+    CONFIG_FILE="$1"
+else
+    CONFIG_FILE="$DEFAULT_CONFIG_FILE"
 fi
 
-# Source the configuration file
-source "$CONFIG_FILE"
+# Check if the config file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Source the config file
+    source "$CONFIG_FILE"
+    echo "Using config file: $CONFIG_FILE"
+else
+    echo "Error: Config file '$CONFIG_FILE' not found."
+    exit 1
+fi
 
 
 # Path where you installed the scilus container (see utils/instal_tools)
@@ -36,9 +45,8 @@ my_main_nf="${TOOLS_PATH}/tractoflow/main.nf"
 # Path to the BIDS formated data (containing all subjects and all sesions)
 my_input=$BIDS_DIR
 
-# Path of the tractoflow output. Adding a date helps to keep track of versions, but not necessary
-CURRENT_DATE=$(date +"%Y-%m-%d") # Current date in YYYY-MM-DD format
-my_output_dir="${OUTPUT_DIR}/${CURRENT_DATE}_tractoflow"
+# Path of the tractoflow output. This will be saved in the config file as tractoflow_outputs
+my_output_dir="${OUTPUT_DIR}/tractoflow"
 
 # Check if the variable tractoflow_results_folder exists in the config file
 if grep -q "^tractoflow_outputs=" "$CONFIG_FILE"; then
@@ -59,7 +67,7 @@ nf_command="nextflow run $my_main_nf --bids $my_input -with-singularity $my_sing
 
 TMP_SCRIPT=$(mktemp /tmp/slurm-tractoflow_XXXXXX.sh)
 
-# Write the SLURM script to the temporary file
+# Write the SLURM script to a temporary file
 cat <<EOT > $TMP_SCRIPT
 #!/bin/bash
 $tractoflow_ressources
@@ -87,7 +95,6 @@ EOT
 # Submit the scipt as a slurm job
 sbatch $TMP_SCRIPT
 
-# Uncomment to automatically remove the temporary script 
-# rm /tmp/$TMP_SCRIPT
+
 
  

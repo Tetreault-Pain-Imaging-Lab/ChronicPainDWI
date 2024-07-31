@@ -4,22 +4,29 @@
 #   - Population average atlas for RecobundlesX. DOI:  10.5281/zenodo.10103446
 
 # This script submits a job with sbatch with the ressources specified in the config.sh file. 
-# To run this script use : bash bundleseg/run_rbx_cc.sh from the repository directory
+# To run this script use : bash bundleseg/run_rbx_cc.sh your_config.sh
 #  
 
 
 # Define the path to the configuration file
-CONFIG_FILE="config.sh"
+DEFAULT_CONFIG_FILE="config_ex.sh"
 
-# Check if the configuration file exists
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Error: Configuration file not found."
-  echo "Please ensure the current directory is ChronicPainDWI or a parent directory when running this script."
-  exit 1
+# Check if an argument is provided
+if [ "$#" -eq 1 ]; then
+    CONFIG_FILE="$1"
+else
+    CONFIG_FILE="$DEFAULT_CONFIG_FILE"
 fi
 
-# Source the configuration file
-source "$CONFIG_FILE"
+# Check if the config file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Source the config file
+    source "$CONFIG_FILE"
+    echo "Using config file: $CONFIG_FILE"
+else
+    echo "Error: Config file '$CONFIG_FILE' not found."
+    exit 1
+fi
 
 
 my_singularity_img="${TOOLS_PATH}/containers/scilus_1.6.0.sif" # or .img
@@ -67,5 +74,3 @@ EOT
 # Submit the scipt as a slurm job
 sbatch $TMP_SCRIPT
 
-# Uncomment to automatically remove the temporary script 
-# rm /tmp/$TMP_SCRIPT

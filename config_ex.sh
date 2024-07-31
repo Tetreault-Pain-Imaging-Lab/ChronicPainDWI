@@ -43,8 +43,8 @@ OUTPUT_DIR="/home/ludoal/scratch/tpil_data/BIDS_longitudinal"
 #  Set the following variables to adjust ressources to your need. You will have to set them for every sbatch script (run_tractoflow_cc.sh, run_rbx_cc.sh and run_tractometry_cc.sh)
 
 # General SBATCH directives 
-MAIL="ludo.a.levesque@gmail.com"  # optionnal, remove the `#SBATCH --mail` lines in the ressources variables if you don't want this option
-SLURM_OUT="/home/ludoal/scratch/ChronicPainDWI/outputs/tpil" 
+MAIL="your.email@gmail.com"  # optionnal, remove the `#SBATCH --mail` lines in the ressources variables if you don't want this option
+SLURM_OUT=$OUTPUT_DIR/slurm-outputs 
 
 # tractoflow ressources allocation (uesd in for the script /tractoflow/run_tractoflow_cc.sh)
 tractoflow_ressources="#SBATCH --job-name=tractoflow
@@ -74,7 +74,7 @@ rbx_ressources="#SBATCH --job-name=run_rbx
 #SBATCH --mail-type=REQUEUE"
 
 # Tractometry ressource allocation 
-tractometry_ressources="#SBATCH --job-name=tractometry_50
+tractometry_ressources="#SBATCH --job-name=tractometry
 #SBATCH --time=1:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=20
@@ -87,9 +87,15 @@ tractometry_ressources="#SBATCH --job-name=tractometry_50
 #SBATCH --mail-type=REQUEUE
 #SBATCH --mail-type=ALL"
 
+nb_points=20 # Option for run_tractometry_cc.sh 
 
 
-# Some variables might be added here by some scripts to speed up processing:
-tractoflow_outputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-10_tractoflow"
-rbx_inputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-11_rbx"
-tractometry_inputs="/home/ludoal/scratch/tpil_data/BIDS_longitudinal/2024-07-16_tractometry"
+# Quality Control script ressources
+QC_ressources="#SBATCH --nodes=1              
+#SBATCH --cpus-per-task=10    
+#SBATCH --mem=20G             
+#SBATCH --time=2:00:00         
+#SBATCH --output=$SLURM_OUT/qc/slurm-%A_rbx.out"
+
+
+# Some variables will be added here when running scripts to keep track of outputs.
