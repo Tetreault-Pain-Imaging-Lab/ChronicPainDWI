@@ -30,12 +30,17 @@ my_main_nf="${TOOLS_PATH}/tractometry_flow/main.nf"
 my_input=$tractometry_inputs
 current_date=$(date +"%Y-%m-%d")
 
+if [ ! -n "${nb_points}" ]; then
+    nb_points='20' # 20 is the default nb of points that tractometry segments the tracks
+fi
 
 cmd="nextflow run $my_main_nf \
     --input $my_input \
     -with-singularity $my_singularity_img -resume \
     --skip_projection_endpoints_metrics \
-    --use_provided_centroids"
+    --use_provided_centroids \
+    --skip_projection_endpoints_metrics \
+    --nb_points $nb_points"
 
 
 
@@ -56,6 +61,7 @@ echo -e "Tractometry pipeline\n" > readme.txt
 echo -e "Date : $current_date\n" > readme.txt
 echo -e "[Command-Line]\n" > readme.txt
 echo "$cmd" > readme.txt
+
 
 $cmd
 
