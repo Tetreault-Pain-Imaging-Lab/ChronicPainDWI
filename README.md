@@ -1,14 +1,14 @@
-# ChronicPainDWI
-
-## Overview
+#  <img src="assets/logo.png" alt="logo" width="50"/>   ChronicPainDWI                
 
 **ChronicPainDWI** aims to facilitate the reproduction of the Diffusion MRI processing and analysis we did in our lab, but with different datasets. It contains code to easily run the same pipelines we normally use and with the same options. 
 
+The dataset we originally used to develop this repository includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
-The dataset we originally used to develop this repossitory includes 27 chronic low back pain patients and 25 controls scanned at three timepoints (0, 2, and 4 months) between April 2021 and July 2022. For detailed dataset and acquisition information, refer to our [dataset documentation](https://github.com/Tetreault-Pain-Imaging-Lab/dataset_LongitudinalNoTreatement).
 
 
-## Repository Usage
+## Repository Usage             
+
+<img src="assets/diag_setup.png" alt="diagram1" width="500"/>   
    
 ### Forking the Repository for personal use
 If you would like to use and customize this repository for your own purposes, we recommend forking it. Forking allows you to have your own version of this project that you can modify and maintain independently of the original codebase. Here’s how you can fork this repository:
@@ -38,7 +38,7 @@ To use this repository on Compute Canada, here's some helpful guidance:
     rsync -rl user@graham.alliancecan.ca:/home/user/scratch/data/2024-05-27_tractoflow/results /home/user/scratch/data/2024-05-27_tractoflow/
     ```
 
-- **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` in     the utils folder to install them in one step.
+- **Tool Installation**: Install tools like `tractoflow` and the `scilus` container in a persistent directory (e.g., *projects* directory). Use the `install_tools_cc.sh` to install them in one step.
 
 - **Ressources allocation**:When submitting jobs on a cluster, you have to allocate ressources trough the SLURMS parameters. To monitor jobs and see what ressources it uses, Narval and Beluga have a portal that helps you visualise ressources usage for tasks :[Narval](https://portail.narval.calculquebec.ca), [Beluga](https://portail.beluga.calculquebec.ca).
 Portals for the other clusters might be available now.
@@ -63,7 +63,7 @@ Portals for the other clusters might be available now.
          
          - **--output**: Path to the output log file for the SLURM job. `%A` is the job ID.
 
-     For more info [](https://docs.alliancecan.ca/wiki/Running_jobs)
+     For more info on how to run jobs on Compute Canada see their [wiki page](https://docs.alliancecan.ca/wiki/Running_jobs)
 
 
 ## Config file
@@ -84,10 +84,16 @@ To run the anlysis on a new dataset, you need to create your config file. In thi
 | `QC_ressources`        | SLURM parameters for the `run_dmriqc_cc.sh` script, including nodes, CPUs per task, memory, time, and output log path.                            |
 
 
+Creating multiple config file with evocative names can allow you to quickly switch between two dataset or two configurations of your data without changing anything in the other scripts. After creating this file you can run any other script of this repository this way:
 
-
+```bash
+bash some_script_path your_config_file_path
+```
+If you only use one config file you can name it `config_ex.sh`, since it is the file that will be used as default if no config file is specified as argument when calling a script. Or you could change the `DEFAULT_CONFIG_FILE="config_ex.sh" ` line in all the scripts to use your config file by default.
 
 ## Analysis Workflow
+
+<img src="assets/diag_analysis.png" alt="diagram2" width="500"/>   
 
 ### Preprocessing and tractogram generation
 
@@ -101,13 +107,7 @@ The second step is bundle segmentation. In the [bundleseg](https://github.com/Te
 
 ### Tractometry 
 
-The third step is tractometry which is done using another scilus lab tool : [tractometry_flow](https://github.com/scilus/tractometry_flow) 
-
-### Statisical analysis ?
-
-...
+The third step is tractometry which is done using another scilus lab tool : [tractometry_flow](https://github.com/scilus/tractometry_flow) We encontered an issue with tractometry_flow that might be fixed eventually, but be aware that some bundles might have too few streamlines and this can lead to the pipeline crashing. To resolve this you can remove the bundles that cause the issue from your data.
 
 
-
-...
 
