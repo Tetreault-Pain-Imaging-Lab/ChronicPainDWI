@@ -5,7 +5,7 @@ The script `run_dmriqc_cc.sh` can be used to run qc on different kinds of output
 
 To lauch a qc :
 ```bash
-bash /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh "profile" "your_config.sh"
+bash qc/run_dmriqc_cc.sh "profile" "your_config.sh"
 ```
 | **Available profiles**   |  **Description**                                             |
 |--------------------------|--------------------------------------------------------------|
