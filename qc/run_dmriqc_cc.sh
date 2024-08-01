@@ -15,7 +15,7 @@
 
 
 # To run this script cd into the repo's directory and use :
-#  bash /home/ludoal/scratch/ChronicPainDWI/qc/run_dmriqc_cc.sh "profile" "your_config.sh"
+#  bash qc/run_dmriqc_cc.sh "profile" "your_config.sh"
 
 
 # Define the path to the configuration file
