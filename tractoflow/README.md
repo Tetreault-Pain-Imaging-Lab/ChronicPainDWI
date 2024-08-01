@@ -3,38 +3,41 @@
 Preprocessing of the MRI was applied to the DWI and T1-w images using [TractoFLow](https://tractoflow-documentation.readthedocs.io/en/latest/index.html). Overall, DWI preprocessing is aimed at preparing the images for the application of local reconstruction models. It mainly consists of the following elements: denoising, artifact correction (eddy current/Foucault currents, motion, susceptibility Topup, truncation/Gibbs ringing), brain extraction, N4 bias correction, cropping, normalization, and resampling. On the other hand, preprocessing of the T1-w images is aimed at calculating tissue maps, seeding masks, and brain parcellations. Its main steps include denoising, brain extraction, N4 bias correction, cropping, and resampling.
 
 ## TractoFlow
-TractoFlow was run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. 
+Once you have all the tools installed (see the [`install_tools_cc.sh` script](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/install_tools_cc.sh) ) TractoFlow can be run directly on the BIDS formatted dataset on Compute Canada using the `run_tractoflow_cc.sh` script. 
 
 the structure of the input data should look like :
 
 ```
-$my_input=/path/to/[root]     Input folder containg multiple subjects
 
-                   [root]
-                   ├── dataset_description.json
-                   ├── participants.json
-                   ├── sub-002
-                   │   ├── ses-v1
-                   │   │   ├── anat
-                   │   │   │   ├── sub-002_ses-v1_*.json
-                   │   │   │   └── sub-002_ses-v1_*.nii.gz
-                   │   │   ├── fmap
-                   │   │   │   ├── sub-002_ses-v1_*.json
-                   │   │   │   └── sub-002_ses-v1_*.nii.gz
-                   │   │   └── func
-                   │   │       ├── sub-002_ses-v1*_bold.json
-                   │   │       └── sub-002_ses-v1*_bold.nii.gz
-                   │   ├── ses-v2
-                   │   |   └── ...
-                   │   └── ses-v3
-                   │   |   └── ...
-                   ├── sub-004
-                   │   └── ...
+--input=/path/to/[root]             Root folder containing multiple subjects
+
+    [root]
+    ├── S1
+    │   ├── *dwi.nii.gz
+    │   ├── *bval
+    │   ├── *bvec
+    │   ├── *rev_b0.nii.gz  (optional)
+    │   ├── *aparc+aseg.nii.gz  (optional)
+    │   ├── *wmparc.nii.gz  (optional)
+    │   └── *t1.nii.gz
+    └── S2
+        ├── *dwi.nii.gz
+        ├── *bval
+        ├── *bvec
+        ├── *rev_b0.nii.gz  (optional)
+        ├── *aparc+aseg.nii.gz  (optional)
+        ├── *wmparc.nii.gz  (optional)
+        └── *t1.nii.gz
 
 ```
+For longitudinal datasets with multiple sessions per subject, there should be a session subfolder in each subject folder containing the needed files.
 
-
-For easy installation of tractoflow on a Compute Canada cluster, see the [utils](https://github.com/Tetreault-Pain-Imaging-Lab/ChronicPainDWI/tree/main/utils) section and the `install_tools` script.
+### To run 
+ To lauch `run_tractoflow_cc.sh`, cd into the repo's directory and use :
+```
+bash tractoflow/run_tractoflow_cc.sh your_config.sh
+```
+Replace your_config.sh with your actual config file. If you don't plan on running the pielines with multiple dataset, you could modify the `run_tractoflow_cc.sh` script to change the default config file to your config file.
 
 In our script we use the following option :
 ```
@@ -59,17 +62,13 @@ sub-*/ses-v*/fmap/sub-*_ses*_acq-rest*
   
   `nextflow run main.nf --input <DATASET_ROOT_FOLDER> --dti_shells "0 300 1000" --fodf_shells "0 1000 1200" -with-singularity <PATH_TO_scilus_img>`
 
-See run_tractoflow_cc.sh for an example of how to use on a cluster.
 
 </details>
   
 <details><summary><b>Outputs</b></summary>
  
-(The pipeline creates 2 folders: results and work. The files in results are symlinks to files in work. We highly recommend to not remove work folder. See [here](https://tractoflow-documentation.readthedocs.io/en/latest/pipeline/results.html) to transfert or copy-paste the results folder.)
+The pipeline creates 2 folders: results and work. The files in results are symlinks to files in work. We highly recommend to not remove work folder. See [here](https://tractoflow-documentation.readthedocs.io/en/latest/pipeline/results.html) to transfert or copy-paste the results folder.
   
-**DTI metrics**: The Diffusion Tensor Imaging metrics computed are: the axial diffusivity (AD), fractional anisotropy (FA), geodesic anisotropy (GA), mean diffusivity (MD), radial diffusivity (RD), tensor, tensor norm, tensor eigenvalues, tensor eigenvectors, tensor mode, color-FA. Use flag `-dti_shell` to specify the desired shells t compute DTI metrics. Usually it is recommended to compute DTI metrics using b-values under $b = 1200 mm^2/s$.
-  
-**fODF metrics**: The fiber Orientation Distribution Function metrics computed are: the total and maximum Apparent Fiber Density (AFD), the Number of Fiber Orientation (NuFO) and principal fODFs orientations (up to 5 per voxel). Use flag `–fodf_shells` to specify the desired shells to compute fODF metrics and flag --sh_order to specify the spherical harmonic order (default is 8). Usually it is recommended to compute fODF metrics using b-values above $b = 700 mm^2/s$. 
 
 </details>
 
