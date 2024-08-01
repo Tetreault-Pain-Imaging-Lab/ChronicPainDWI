@@ -15,6 +15,11 @@ We used the script `combineflow_for_rbx_cc.sh` which simply calls the tree_for_r
 ```
 combine_flows creates symlinks to the work folder containing the actual files created by tractoflow so make sure you haven't moved the /results or /work folder after running tractoflow.
 
+To run this combineflow for rbx, cd into the repo's directory and use :
+```
+bash /bundleseg/combineflow_for_rbx_cc.sh your_config.sh
+```
+
 <details><summary><b>Resources</b></summary>
 
   * [Github repository](https://github.com/scilus/combine_flows)
@@ -34,6 +39,11 @@ The path to the folder containing atlas should look like this :
                                         ├── config_fss_1.json
                                         ├── config_fss_2.json
                                         └── mni_masked.nii.gz
+```
+
+To lauch rbx, cd cd into the repo's directory and use :
+```
+bash bundleseg/run_rbx_cc.sh your_config.sh
 ```
 
 <details><summary><b>Resources</b></summary>
