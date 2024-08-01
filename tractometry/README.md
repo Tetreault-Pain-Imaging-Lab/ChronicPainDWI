@@ -1,6 +1,6 @@
 # Tractometry 
 
-After bundle segmentation, we ran tractometry using another scil lab pipeline : [tractometry_flow](https://github.com/scilus/tractometry_flow). Just like we did to run rbx_flow, we used combine_flow to setup the input directory structure. 
+After bundle segmentation, we ran tractometry using another scil lab pipeline : [tractometry_flow](https://github.com/scilus/tractometry_flow). Just like we did to run rbx_flow, we used combine_flow to setup the input directory structure. As mentionned in the main ReadMe file, there is an issue (https://github.com/scilus/scilpy/issues/843) with some bundles with too few streamlines when running directly on rbx outputs. Removing problematic bundles from the data seems to work, but finding out wich bundle is problematic can be complicated. We also worked around this issue by calling tractometry_flow with the --`use_provided_centroids` option set to `false`. However you should see if that issue has been fixed before continuing with this tractometry.
 
 ## combine_flows
 We used the script `combineflow_for_tractometry_cc.sh` which simply calls the tree_for_rbx_flow.sh script from the [combine_flows](https://github.com/scilus/combine_flows) repository to create a directory on which we can run tractometry_flow directly. This directory should have the folowing structure before running tractometry_flow :
@@ -23,10 +23,21 @@ We used the script `combineflow_for_tractometry_cc.sh` which simply calls the tr
 ```
 combine_flows creates symlinks to the work folder containing the actual files created by tractoflow so make sure you haven't moved the /results or /work folder after running tractoflow and rbx.
 
+To lauch `combineflow_for_tractometry_cc.sh`, cd into ChronicPainDWI and use :
+```bash
+bash tractometry/combineflow_for_tractometry_cc.sh your_config.sh
+```
+
+
 ## tractometry_flow
 
 This pipeline allows you to extract tractometry information by combining
 subjects's fiber bundles and diffusion MRI metrics.
+
+To lauch `run_tractometry_cc.sh`, cd into ChronicPainDWI and use :
+```bash
+bash tractometry/run_tractometry_cc.sh your_config.sh
+```
 
 <details><summary><b>Resources</b></summary>
   
