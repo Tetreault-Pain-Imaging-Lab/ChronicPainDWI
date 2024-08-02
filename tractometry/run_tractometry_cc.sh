@@ -51,7 +51,7 @@ cmd="nextflow run $my_main_nf \
     --input $my_input \
     -with-singularity $my_singularity_img -resume \
     --skip_projection_endpoints_metrics \
-    --use_provided_centroids \
+    --use_provided_centroids false \
     --skip_projection_endpoints_metrics \
     --nb_points $nb_points"
 
@@ -67,7 +67,8 @@ $tractometry_ressources
 # Load necessary module
 module load StdEnv/2020 java/14.0.2 nextflow/21.10.3 apptainer
 
-cd $my_input
+# cd $my_input
+cd /home/ludoal/scratch/tpil_data/tractometry_issue/tractometry_results
 
 # Create a readme.txt to keep track of options and date that this was ran
 echo -e "Tractometry pipeline\n" > readme.txt
