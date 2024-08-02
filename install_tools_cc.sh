@@ -30,7 +30,6 @@
         # 7. Atlas files for bundleseg
         # - Downloaded from https://zenodo.org/record/10103446 and extracted to the atlas directory.
 
-# Function to display the help message
 
 
 # Function to check and create directory if it doesn't exist
